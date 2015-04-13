@@ -1,0 +1,25 @@
+{
+  "name": "intuit",
+  "version": "0.0.0",
+  "description": "Here is my readme...",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "express": "^4.12.3"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericwgreene/intuit-bootcamp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericwgreene/intuit-bootcamp/issues"
+  },
+  "homepage": "https://github.com/ericwgreene/intuit-bootcamp"
+}
