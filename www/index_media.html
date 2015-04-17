@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html dir="ltr">
+
+	<head>
+		<title>Intuit Boot Camp Demonstrations</title>
+		<!-- <link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet"> -->
+		<!-- <link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet"> -->
+		<link href='css/site.css' rel="stylesheet">
+	</head>
+
+	<body>
+
+		<canvas id="demoCanvas" width="150" height="150"></canvas>
+
+		<svg id="svgDemo" width="200" height="200">
+    	<circle cx="100" cy="100" r="50" stroke="blue" stroke-width="2" fill="gray" />
+  	</svg>
+
+		<audio controls>
+    	<source src="media/DavidPogue_2013U.mp3" type="audio/mpeg">
+    	Your browser does not support the audio tag.
+  	</audio>
+
+		<video width="640" height="480" controls>
+    	<source src="media/DavidPogue_2013U-480p-en.mp4" type="video/mp4">
+			<track kind="captions" src="media/sample.vtt">
+    	Your browser does not support the video element.
+  	</video>
+
+
+
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+
+		var
+			canvasElement = document.getElementById("demoCanvas"),
+			drawingObject = canvasElement.getContext("2d");
+
+			drawingObject.moveTo(0, 0);
+    	drawingObject.lineTo(150, 250);
+    	drawingObject.stroke();
+
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,81 @@
+body {
+	font-size: 100%;
+}
+
+.container {
+
+	width:600px;
+	height:400px;
+	border: 2px solid blue;
+	padding: 2px;
+
+}
+
+.content-container {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	border: 1px solid red;
+	height:100%;
+}
+
+.content-item {
+	flex-grow: 0;
+}
+
+.red {
+
+	order: 1;
+
+	background-color: red;
+	height: 30px;
+	width: 20px;
+}
+
+.green {
+
+	order: 2;
+	align-self: flex-end;
+
+	background-color:green;
+	height: 30px;
+	width: 70px;
+}
+
+.blue {
+
+	order: -1;
+
+	background-color:blue;
+	height: 100px;
+	width: 35px;
+}
+
+.black {
+
+	order: 4;
+
+	background-color:black;
+	height: 40px;
+	width: 40px;
+}
+
+.orange {
+
+	order: 5;
+
+	background-color:orange;
+	height: 15px;
+	width: 60px;
+}
+
+.purple {
+
+	order: 6;
+
+	background-color:purple;
+	height: 50px;
+	width: 35px;
+}

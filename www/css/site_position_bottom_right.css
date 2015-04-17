@@ -1,0 +1,25 @@
+body {
+	font-size: 100%;
+}
+
+
+.content-container {
+	position:fixed !important;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+}
+
+.content {
+
+	position: absolute;
+	bottom:0px;
+	right:0px;
+	width:100px;
+	height:100px;
+
+	border: 1px solid red;
+
+}
