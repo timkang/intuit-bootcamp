@@ -1,46 +1,61 @@
+"use strict";
 
-var pElement = document.getElementById("first-box")
-	.getElementsByTagName("p")[0];
+/*
+var mapUrl = "https://maps.googleapis.com/maps/api/staticmap?center=" +
+	position.coords.latitude + "," + position.coords.longitude +
+	"&zoom=11&size=200x200";
+*/
 
-var buttonElement = document.getElementById("contentSwitchButton");
+function WhereAmI() {
 
-buttonElement.addEventListener("click", function() {
-	console.log("replacing element");
+	this.p = new Promise(function(resolve, reject) {
 
-	if (pElement.placeHolderNode) {
-		pElement.placeHolderNode
-			.parentNode.replaceChild(pElement, pElement.placeHolderNode);
-			delete pElement.placeHolderNode;
-	} else {
-		console.log(pElement.outerHTML);
-		pElement.placeHolderNode = document.createComment("Place Holder");
-		pElement.parentNode.replaceChild(pElement.placeHolderNode, pElement);
+		navigator.geolocation.getCurrentPosition(function(position) {
+			resolve(position);
+		}, function(err) {
+			switch (err.code) {
+				case err.PERMISSION_DENIED:
+					console.log("permission denied");
+					break;
+				case err.POSITION_UNAVAILABLE:
+					console.log("position unavailable");
+					break;
+				case err.TIMEOUT:
+					console.log("timeout");
+					break;
+				default:
+					console.log("who knows...");
+					break;
+			}
+			reject(err);
+		});
+
+	});
+
+}
+
+WhereAmI.prototype.myCurrentPosition = function() {
+
+	return this.p;
+
+};
+
+Object.defineProperty(WhereAmI.prototype, "currentPosition", {
+	configurable: false,
+	enumerable: true,
+	get: function() {
+		return this.p;
 	}
+})
+
+window.addEventListener("DOMContentLoaded", function() {
+
+	var w = new WhereAmI();
+	w.currentPosition.then(function(position) {
+		console.log(position.coords.longitude);
+		console.log(position.coords.latitude);
+	}, function(err) {
+		console.log("did not work out...");
+	});
 
 });
-
-
-
-/*
-var parentElement = pElement.parentNode;
-
-console.time("add nodes");
-/*
-pElement.remove();
-for (var x=0; x<1000000; x++) {
-	var textNode = document.createTextNode("Some Node Awesomeness!");
-	var spanElement = document.createElement("span");
-	spanElement.appendChild(textNode);
-	pElement.appendChild(spanElement);
-}
-parentElement.appendChild(pElement);
-var s = [];
-for (var x=0; x<1000000; x++) {
-	s.push("<span>Some Node Awesomeness!</span>");
-}
-pElement.innerHTML = s.join("");
-
-pElement.appendChild(commentNode);
-
-console.timeEnd("add nodes");
-*/
