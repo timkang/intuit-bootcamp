@@ -2,15 +2,30 @@
 
 function MyPromise(fn) {
 
-	var resolveFns = [], rejectFns = [];
+	var
+		resolveFns = [],
+		rejectFns = [];
+	var
+		nextResolveFn = function() {},
+		nextRejectFn = function() {};
 
 	fn(function(o) {
 		for (var x=0; x<resolveFns.length; x++) {
-			resolveFns[x](o);
+			var r = resolveFns[x](o);
+			if (!(r instanceof MyPromise)) {
+				nextResolveFn(r);
+			} else {
+				resolveFns[x](o).then(nextResolveFn, nextRejectFn);
+			}
 		}
 	}, function(o) {
 		for (var x=0; x<rejectFns.length; x++) {
-			rejectFns[x](o);
+			var r = rejectFns[x](o);
+			if (!(r instanceof MyPromise)) {
+				nextResolveFn(r);
+			} else {
+				rejectFns[x](o).then(nextResolveFn, nextRejectFn);
+			}
 		}
 	});
 
@@ -19,7 +34,8 @@ function MyPromise(fn) {
 			if (resolveFn) resolveFns.push(resolveFn);
 			if (rejectFn) rejectFns.push(rejectFn);
 			return new Promise(function(resolve, reject) {
-
+				nextResolveFn = resolve;
+				nextRejectFn = reject;
 			});
 		}
 	}
@@ -27,7 +43,7 @@ function MyPromise(fn) {
 
 var p = new MyPromise(function(resolve, reject) {
 	setTimeout(function() {
-		reject();
+		resolve();
 	}, 3000);
 })
 console.log("waiting...");
