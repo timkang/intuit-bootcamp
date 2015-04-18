@@ -1,0 +1,13 @@
+db.createUser({
+	user: "siteAdminUser",
+	pwd: "qaz123WSX",
+	roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+})
+
+mongo --port 27017 -u siteAdminUser -p qaz123WSX --authenticationDatabase admin
+
+db.createUser({
+  user: "webUser",
+  pwd: "intuit",
+  roles: [ { role: "readWrite", db: "NonProfitCMS" } ]
+})

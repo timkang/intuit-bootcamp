@@ -5,3 +5,13 @@ https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories
 Templating Process Comparison
 
 http://jsperf.com/dom-vs-innerhtml-based-templating/521
+
+GitHub Repos
+
+https://github.com/ericwgreene/intuit-bootcamp
+
+https://github.com/ericwgreene/toptalcodedemos
+
+Videos
+
+http://www.toptal.com/videos

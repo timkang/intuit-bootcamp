@@ -5,6 +5,7 @@
   "main": "Gruntfile.js",
   "dependencies": {
     "express": "^4.12.3",
+    "multer": "^0.1.8",
     "ws": "^0.7.1"
   },
   "devDependencies": {
