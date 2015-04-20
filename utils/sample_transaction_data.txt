@@ -1,0 +1,18 @@
+{
+	"transaction": {
+    "accountNumber" : 1,
+    "payee" : "Intuit",
+    "taxItem" : "Business Deduction",
+    "amount" : 39.0000000000000000,
+    "description" : "Paid My Quickbooks Subscription Fee"
+	}
+}
+
+{
+    "accountNumber" : 1,
+    "payee" : "Intuit",
+    "taxItem" : "Business Deduction",
+    "amount" : 39.0000000000000000,
+    "description" : "Paid My Quickbooks Subscription Fee",
+    "transDate" : NumberLong(1429549947255)
+}

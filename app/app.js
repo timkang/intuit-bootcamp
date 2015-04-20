@@ -6,32 +6,15 @@ module.exports = function(config) {
 		multer = require("multer"),
 		app = express();
 
-	console.log(config.httpServer.wwwRoot);
-
 	app.use(express.static(config.httpServer.wwwRoot));
-
 	app.use("/api", bodyParser.json());
-	app.use("/api", require("./routers/transactions.js")(config));
-
-	/*
-	app.use(multer({
-		dest: "./uploads",
+	app.use("/api", multer({
+		dest: "./app/uploads",
 		rename: function(fieldName, fileName) {
 			return fileName;
 		}
 	}));
-	*/
-
-	/*
-	app.post("/uploads", function(req, res) {
-
-		res.json({
-			msg: "received"
-		});
-
-	});
-	*/
+	app.use("/api", require("./routers/transactions.js")(config));
 
 	return app;
-
 };

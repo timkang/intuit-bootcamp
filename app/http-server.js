@@ -8,5 +8,4 @@ module.exports = function(config) {
 
 	config.webSockets(http.createServer(config.app))
 		.listen(config.httpServer.port, config.httpServer.callback);
-
 };
