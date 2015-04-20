@@ -1,9 +1,24 @@
 module.exports = function(config) {
 
 	var
-		express = require("express");
+		express = require("express"),
+		mongoose = require("mongoose"),
+		transactionsRouter = express.Router();
 
-	var transactionsRouter = express.Router();
+	mongoose.connect("mongodb://" +
+		config.mongoServer.host + ":" +
+		config.mongoServer.port + "/" +
+		config.mongoServer.dbName);
+
+	var transactionSchema = mongoose.Schema({
+		accountNumber: String,
+		payee: String,
+		taxItem: String,
+		amount: Number,
+		description: String
+	});
+
+	var TransactionModel = mongoose.model("transaction", transactionSchema);
 
 	transactionsRouter.route("/transactions")
 		.get(function(req, res) {
@@ -14,6 +29,20 @@ module.exports = function(config) {
 
 	transactionsRouter.route("/transaction")
 		.post(function(req, res) {
+
+			var t = new TransactionModel(req.body.transaction);
+			t.save(function(err, transaction) {
+
+				if (err) {
+					console.log(err);
+					res.status(500).json(err);
+					return;
+				}
+
+				res.json(transaction);
+
+			});
+
 
 		});
 
