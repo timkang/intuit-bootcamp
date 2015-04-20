@@ -22,39 +22,63 @@ module.exports = function(config) {
 
 	transactionsRouter.route("/transactions")
 		.get(function(req, res) {
-			res.json([
-				{ id: 1, payee: "Intuit", amount: "59.00" }
-			]);
-		});
-
-	transactionsRouter.route("/transaction")
-		.post(function(req, res) {
-
-			var t = new TransactionModel(req.body.transaction);
-			t.save(function(err, transaction) {
-
+			TransactionModel.find({}, function(err, transactions) {
 				if (err) {
 					console.log(err);
 					res.status(500).json(err);
 					return;
 				}
-
-				res.json(transaction);
-
+				res.json(transactions);
 			});
+		});
 
-
+	transactionsRouter.route("/transaction")
+		.post(function(req, res) {
+			var t = new TransactionModel(req.body.transaction);
+			t.save(function(err, transaction) {
+				if (err) {
+					console.log(err);
+					res.status(500).json(err);
+					return;
+				}
+				res.json(transaction);
+			});
 		});
 
 	transactionsRouter.route("/transaction/:transactionId")
 		.get(function(req, res) {
-
+			TransactionModel.findById(req.params.transactionId,
+				function(err, transaction) {
+					if (err) {
+						console.log(err);
+						res.status(500).json(err);
+						return;
+					}
+					res.json(transaction);
+				});
 		})
 		.put(function(req, res) {
-
+			TransactionModel.findByIdAndUpdate(req.params.transactionId,
+				req.body.transaction,
+				function(err, transaction) {
+					if (err) {
+						console.log(err);
+						res.status(500).json(err);
+						return;
+					}
+					res.json(transaction);
+				});
 		})
 		.delete(function(req, res) {
-
+			TransactionModel.findByIdAndRemove(req.params.transactionId,
+				function(err, transaction) {
+					if (err) {
+						console.log(err);
+						res.status(500).json(err);
+						return;
+					}
+					res.json(transaction);
+				});
 		});
 
 
