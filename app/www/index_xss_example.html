@@ -32,16 +32,12 @@
 
 				doSearchButton.addEventListener("click", function() {
 
-					//searchTermSpan.innerHTML =  userSearchInput.value; // bad
-					//searchTermSpan.innerText =  userSearchInput.value; // ok
-					searchTermSpan.textContent =  userSearchInput.value; // best
-
+					//searchTermSpan.innerHTML =  userSearchInput.value; - bad
+					//searchTermSpan.innerText =  userSearchInput.value; - ok
+					//searchTermSpan.textContent =  userSearchInput.value; - best
 
 					outputDiv.classList.remove("hide");
 				});
-
-				console.log(document.getElementById("myInnerText").textContent);
-				console.log($("#myInnerText").text());
 
 			});
 
@@ -51,8 +47,6 @@
 	<body>
 
 		<div id="content">
-
-			<div id="myInnerText">Here is <span style='visibility:hidden'>some</span> text!</div>
 
 			Search: <input type="text" id="user-search"><button id="do-search">Search!</button><br><br>
 

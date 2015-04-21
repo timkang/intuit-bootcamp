@@ -22,6 +22,9 @@ module.exports = function(config) {
 
 	transactionsRouter.route("/transactions")
 		.get(function(req, res) {
+
+			console.dir(req.user);
+
 			TransactionModel.find({}, function(err, transactions) {
 				if (err) {
 					console.log(err);
@@ -36,6 +39,13 @@ module.exports = function(config) {
 		.post(function(req, res) {
 			var t = new TransactionModel(req.body.transaction);
 			t.save(function(err, transaction) {
+
+				req.body.fileName
+
+				fs.readFile("./app/uploads/" + req.body.fileName, function(err, image) {
+					// mongo code to store image in the database
+
+				})
 				if (err) {
 					console.log(err);
 					res.status(500).json(err);
