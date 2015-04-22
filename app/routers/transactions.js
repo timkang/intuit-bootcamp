@@ -68,7 +68,7 @@ module.exports = function(config) {
 						res.status(500).json(err);
 						return;
 					}
-					res.json(transaction);
+					res.json(req.body);
 				});
 		})
 		.delete(function(req, res) {

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html dir="ltr">
+
+	<head>
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
+		<link href='css/site.css' rel="stylesheet">
+	</head>
+
+	<body>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script>
+
+			Backbone.ajax = function(options) {
+
+				var xhr = new XMLHttpRequest();
+
+				xhr.onreadystatechange = function() {
+
+					if (xhr.status !== 200 && xhr.readyState > 1) {
+						options.error(xhr);
+					}
+
+					if (xhr.readyState == 4) {
+						options.success(xhr);
+					}
+
+				}
+
+				xhr.open(options.type, options.url);
+				xhr.setRequestHeader("Content-Type", options.contentType);
+				xhr.send(options.data);
+
+			}
+
+			var Transaction = Backbone.Model.extend({
+				idAttribute: "_id",
+				url: "/api/transaction",
+				initialize: function() {
+					this._id = null;
+					this.accountNumber = null;
+					this.payee = null;
+					this.taxItem = null;
+					this.amount = 39;
+					this.description = null;
+				}
+			});
+
+
+			var t = new Transaction();
+			t.set("accountNumber", 345);
+			t.set("payee", "Intuit");
+			t.set("taxItem", "Payroll");
+			t.set("amount", 230);
+			t.set("description", "Because I love paying people...");
+			t.save(null, {
+				success: function() {
+					console.dir(t.attributes);
+				}
+			});
+
+			/*
+			var t = new Transaction({
+		    "accountNumber" : 1,
+		    "payee" : "Intuit",
+		    "taxItem" : "Business Deduction",
+		    "amount" : 39.0000000000000000,
+		    "description" : "Paid My Quickbooks Subscription Fee"
+			});
+			*/
+
+			console.dir(t.attributes);
+
+
+		</script>
+	</body>
+
+</html>

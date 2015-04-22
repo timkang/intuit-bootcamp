@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html dir="ltr">
+
+	<head>
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
+		<link href='css/site.css' rel="stylesheet">
+	</head>
+
+	<body>
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script>
+
+			var Transaction = Backbone.Model.extend({
+				idAttribute: "_id",
+				urlRoot: "/api/transaction",
+				default: {
+					accountNumber: null,
+					payee: null,
+					taxItem: null,
+					amount: 39,
+					description: null
+				},
+				initialize: function() {
+					this.on("change:payee", function() {
+						console.log(arguments);
+						console.log("payee changed!");
+					})
+				}
+			});
+
+			var Transactions = Backbone.Collection.extend({
+				model: Transaction,
+				url: "/api/transactions",
+				initialize: function() {
+					this.on("add", function() {
+						console.log("model added");
+						console.dir(this.models);
+					});
+				}
+			});
+
+			var t = new Transaction();
+			t.set("accountNumber", 345);
+			t.set("payee", "Intuit");
+			t.set("taxItem", "Payroll");
+			t.set("amount", 230);
+			t.set("description", "Because I love paying people...");
+			t.save(null, {
+				success: function() {
+					console.dir(t.attributes);
+
+					t.set("payee", "Google");
+					t.save();
+
+					//t.destroy();
+				}
+			});
+
+			var ts = new Transactions();
+			ts.fetch({
+				success: function() {
+					console.dir(ts.models);
+				}
+			});
+
+			ts.create({
+		    "accountNumber" : 1,
+		    "payee" : "LinkedIn",
+		    "taxItem" : "Business Deduction",
+		    "amount" : 39.0000000000000000,
+		    "description" : "Paid My Quickbooks Subscription Fee"
+			});
+
+
+
+
+		</script>
+	</body>
+
+</html>
