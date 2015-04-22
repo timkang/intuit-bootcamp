@@ -18,6 +18,7 @@
     "bootstrap": "~3.3.4",
     "underscore": "~1.8.3",
     "q": "1.0.1",
-    "bluebird": "~2.9.24"
+    "bluebird": "~2.9.24",
+    "backbone": "~1.1.2"
   }
 }
