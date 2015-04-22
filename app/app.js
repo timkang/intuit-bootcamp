@@ -5,6 +5,7 @@ module.exports = function(config) {
 		bodyParser = require("body-parser"),
 		multer = require("multer"),
 		session = require('express-session'),
+		//cookieParser = require('cookie-parser')
 		passport = require("passport"),
 		crypto = require("crypto"),
 		csrf = require("csrf")(),
@@ -25,6 +26,7 @@ module.exports = function(config) {
 		return value;
 	});
 
+	//app.use(cookieParser());
 	app.use(session({
 		resave: false,
 		saveUninitialized: false,
@@ -34,8 +36,9 @@ module.exports = function(config) {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
+
 	app.use("/api", bodyParser.json());
-	app.use("/api", bodyParser.urlencoded({ extended: true }));
+	//app.use("/api", bodyParser.urlencoded({ extended: true }));
 
 	app.post("/api/accounts/authenticate", function(req, res, next) {
 
@@ -99,7 +102,22 @@ module.exports = function(config) {
 
 	app.use("/api", require("./routers/transactions.js")(config));
 
+	/*
+	app.use("/", function(req, res, next) {
+		if (req.path === "/" || req.path === "/index.html") {
+			csrf.secret().then(function(secret) {
+				req.session.csrfSecret = secret;
+				res.cookie("csrf-token", csrf.create(req.session.csrfSecret))
+				next();
+			});
+			return;
+		}
+		next();
+	});
+	*/
+
 	app.use(express.static(config.httpServer.wwwRoot));
+
 
 	return app;
 };
