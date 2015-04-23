@@ -32,15 +32,9 @@ window.addEventListener("DOMContentLoaded", function() {
 		.addEventListener("click", function() {
 			transactions.fetch({
 				success: function() {
-					console.log(transactions.models);
-					/*
-					var source = document.getElementById("transaction-records").innerHTML;
-					var template = Handlebars.compile(source);
-					var html = template({
+					$("#view").append(templates["transaction-records"]({
 						transactions:  transactions.toJSON()
-					});
-					document.getElementById("view").innerHTML = html;
-				  */
+					}));
 				}
 			})
 		});
@@ -73,11 +67,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 			transactions.add(t);
 
-			var source = document.getElementById("transaction-record").innerHTML;
-			var template = Handlebars.compile(source);
-			var html = template(t.attributes);
-			document.getElementById("view").innerHTML = html;
-
+			$("#view").append(templates["transaction-record"](t.attributes));
 	});
 
 });

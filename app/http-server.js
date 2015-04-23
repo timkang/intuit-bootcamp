@@ -1,4 +1,4 @@
-module.exports = function(config, logger) {
+module.exports = function(config) {
 
 	var
 		http = require("http");

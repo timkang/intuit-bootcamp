@@ -1,5 +1,8 @@
 module.exports = function(grunt) {
 
+  var
+    path = require("path");
+
   grunt.initConfig({
     httpServer: {
       wwwRoot: "app/www",
@@ -31,10 +34,51 @@ module.exports = function(grunt) {
           timeStamp : true
         }
       }
-    }
+    },
+    handlebars: {
+			compile: {
+				options: {
+					namespace: "templates",
+					processName: function(filePath) {
+						return path.basename(filePath, ".min.hbs");
+					},
+					processPartialName: function(filePath) {
+						return path.basename(filePath, ".min.hbs");
+					}
+				},
+				files: {
+					"app/www/js/templates.js": "app/templates-min/**/*.min.hbs"
+				}
+			}
+		},
+		htmlmin: {
+			templates: {
+	      options: {
+	        removeComments: true,
+	        collapseWhitespace: true
+	      },
+	      files: {
+					"app/templates-min/transaction-record.min.hbs": "app/templates/transaction-record.hbs",
+          "app/templates-min/transaction-records.min.hbs": "app/templates/transaction-records.hbs"
+	      }
+	    }
+		},
+		watch: {
+			templates: {
+				files: ["app/templates/**/*.hbs"],
+				tasks: ["htmlmin", "handlebars"],
+				options: {
+					spawn: false
+				}
+			}
+		}
   });
 
-	grunt.registerTask("webServer", "Start web server", function() {
+  grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-contrib-handlebars");
+  grunt.loadNpmTasks("grunt-contrib-htmlmin");
+
+	grunt.registerTask("web-server", "Start web server", function() {
 
 		var
 			httpServer = require("./app/http-server"),
@@ -50,10 +94,10 @@ module.exports = function(grunt) {
 
     this.async();
     config.app = app(config);
-    httpServer(config, logger);
+    httpServer(config);
 	});
 
-	grunt.registerTask("default", ["webServer"]);
+	grunt.registerTask("default", ["htmlmin","handlebars","web-server","watch"]);
 
 
 };

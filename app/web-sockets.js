@@ -1,4 +1,4 @@
-module.exports = function(webServer, logger) {
+module.exports = function(webServer) {
   "use strict";
 
   var
@@ -24,7 +24,7 @@ module.exports = function(webServer, logger) {
         logger.error(data.errorMessage);
       }
       ws.send(JSON.stringify({
-        status: "OK"
+        status: "ACK"
       }));
 
     });
