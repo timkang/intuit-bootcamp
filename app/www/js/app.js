@@ -25,20 +25,22 @@ window.addEventListener("DOMContentLoaded", function() {
 			xhr.send(JSON.stringify({
 				emailAddress: document.getElementById("login-email-address").value,
 				password: document.getElementById("login-password").value
-			}))
+			}));
 	});
 
 	document.getElementById("get-all-transactions")
 		.addEventListener("click", function() {
-			console.log(transactions.models);
 			transactions.fetch({
 				success: function() {
+					console.log(transactions.models);
+					/*
 					var source = document.getElementById("transaction-records").innerHTML;
 					var template = Handlebars.compile(source);
 					var html = template({
 						transactions:  transactions.toJSON()
 					});
 					document.getElementById("view").innerHTML = html;
+				  */
 				}
 			})
 		});

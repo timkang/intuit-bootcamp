@@ -11,7 +11,8 @@ module.exports = function(config) {
 		crypto = require("crypto"),
 		csrf = require("csrf")(),
 		path = require("path"),
-		app = express();
+		app = express(),
+		indexPath = path.resolve(path.join("app", "www", "index.html"));
 
 	// connect to mongo
 	mongoose.connect("mongodb://" +
@@ -86,7 +87,7 @@ module.exports = function(config) {
 	// all other requests should return index.html
 	// needed for HTML5 history API
 	app.use("/", function(req, res) {
-		res.sendFile(path.resolve(path.join("app", "www", "index.html")), null, function(err) {
+		res.sendFile(indexPath, function(err) {
 			if (err) res.status(err.status).end();
 		});
 	});
