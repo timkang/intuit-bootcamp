@@ -18,7 +18,14 @@ var AppRouter = Backbone.Router.extend({
 	},
 
 	showTransactions: function() {
-
+		if (this.currentView) {
+			this.currentView.undelegateEvents();
+		}
+		this.currentView = new TransactionsView({
+			el: this.options.el,
+			router: this
+		});
+		this.currentView.render();
 	},
 
 	showTransaction: function(transactionId) {

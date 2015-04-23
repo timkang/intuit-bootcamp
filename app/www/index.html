@@ -13,27 +13,11 @@
 
 		<header>
 			<div><h1>MyCheckBook</h1></div>
-			<div>
-				<form class="form-inline">
-				  <div class="form-group">
-				    <label class="sr-only" for="login-email-address">Email address</label>
-				    <input type="email" class="form-control" id="login-email-address" placeholder="Enter email" value="eric@ericwgreene.com">
-				  </div>
-				  <div class="form-group">
-				    <label class="sr-only" for="login-password">Password</label>
-				    <input type="password" class="form-control" id="login-password" placeholder="Password" value="password">
-				  </div>
-				  <div class="checkbox">
-				    <label>
-				      <input type="checkbox"> Remember me
-				    </label>
-				  </div>
-				  <button id="sign-in" type="button" class="btn btn-default">Sign in</button>
-				</form>
+			<div id="view-login-status">
 			</div>
 		</header>
 
-		<div id="view" class="container"></div>
+		<div id="view-content" class="container"></div>
 
 		<footer>
 			<span>&copy; 2015 Roundtuit Software, Inc.</span>
@@ -48,6 +32,7 @@
 		<script src="js/app.common.js"></script>
 		<script src="js/models/transaction.model.js"></script>
 		<script src="js/collections/transactions.collection.js"></script>
+		<script src="js/views/login-status.view.js"></script>
 		<script src="js/views/home.view.js"></script>
 		<script src="js/views/transaction.view.js"></script>
 		<script src="js/views/transactions.view.js"></script>

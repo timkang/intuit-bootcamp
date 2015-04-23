@@ -39,6 +39,10 @@ body > footer {
 
 }
 
+#form-login > div, #form-status > div {
+	margin-right:10px;
+}
+
 #welcome {
 	font-size:3em;
 	font-weight:bold;

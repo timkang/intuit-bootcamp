@@ -1,7 +1,19 @@
 this["templates"] = this["templates"] || {};
 
 this["templates"]["home"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div id=\"welcome\">Welcome! Please Login!</div><br><br><button id=\"get-all-transactions\">Get All Transactions</button><br><br><button id=\"create-transaction\">Create Transaction</button><br><br><button id=\"add-transaction\">Add Transaction</button><br><br>";
+    return "<div id=\"welcome\">Welcome! Please Login!</div>";
+},"useData":true});
+
+this["templates"]["login-form"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<form id=\"form-login\" class=\"form-inline\"><div class=\"form-group\"><label class=\"sr-only\" for=\"login-email-address\">Email address</label><input type=\"email\" class=\"form-control\" id=\"login-email-address\" placeholder=\"Enter email\" value=\"eric@ericwgreene.com\"></div><div class=\"form-group\"><label class=\"sr-only\" for=\"login-password\">Password</label><input type=\"password\" class=\"form-control\" id=\"login-password\" placeholder=\"Password\" value=\"password\"></div><div class=\"checkbox\"><label><input type=\"checkbox\"> Remember me</label></div><button id=\"sign-in\" type=\"button\" class=\"btn btn-default\">Sign in</button></form>";
+},"useData":true});
+
+this["templates"]["login-status"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var helper;
+
+  return "<form id=\"form-status\" class=\"form-inline\"><div class=\"form-group\">Welcome "
+    + this.escapeExpression(((helper = (helper = helpers.firstName || (depth0 != null ? depth0.firstName : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"firstName","hash":{},"data":data}) : helper)))
+    + "!</div><button id=\"sign-out\" type=\"button\" class=\"btn btn-default\">Sign Out</button></form>";
 },"useData":true});
 
 this["templates"]["transaction"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {

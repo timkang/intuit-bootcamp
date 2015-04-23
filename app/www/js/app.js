@@ -2,36 +2,20 @@ var transactions = new Transactions();
 
 window.addEventListener("DOMContentLoaded", function() {
 
-	document.getElementById("sign-in")
-		.addEventListener("click", function() {
-
-			var xhr = new XMLHttpRequest();
-
-			xhr.onreadystatechange = function() {
-
-				if (xhr.readyState > 1 && xhr.status > 299) {
-					console.log("login failed");
-					return;
-				}
-
-				if (xhr.readyState === 4) {
-					window.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
-					console.log("successful!");
-				}
-			}
-
-			xhr.open("POST", "/api/accounts/authenticate");
-			xhr.setRequestHeader("Content-Type", "application/json");
-			xhr.send(JSON.stringify({
-				emailAddress: document.getElementById("login-email-address").value,
-				password: document.getElementById("login-password").value
-			}));
-	});
 
 	var appRouter = new AppRouter({
-		el: $("#view")[0]
+		el: $("#view-content")[0]
 	});
-	Backbone.history.start({ pushState: false });
+
+  var loginStatusView = new LoginStatusView({
+   el: $("#view-login-status")[0],
+   router: appRouter,
+   routeRedirect: "transactions",
+   model: null
+  });
+  loginStatusView.render();
+
+	Backbone.history.start({ pushState: true });
 
 	/*
 
