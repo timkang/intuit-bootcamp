@@ -1,0 +1,47 @@
+body > header {
+	background-color:#191997;
+	border-bottom:#00008B 1px solid;
+	padding:15px;
+	color:white;
+}
+
+body > header::after, body > header::before {
+	display:table;
+	content: " ";
+}
+
+body > header::after {
+	clear:both;
+}
+
+body > header > div > h1 {
+	padding:0;
+	margin:0;
+}
+
+
+body > header > div:first-child {
+	float:left;
+}
+
+body > header > div:last-child {
+	float:right;
+}
+
+body > footer {
+
+	padding:15px;
+	background-color:#555555;
+	border-top:#999999 solid 1px;
+	font-size:1em;
+	text-align:center;
+	color:#fff;
+
+}
+
+#welcome {
+	font-size:3em;
+	font-weight:bold;
+	text-align:center;
+	margin:40px;
+}

@@ -3,6 +3,11 @@ module.exports = function(grunt) {
   grunt.initConfig({
     httpServer: {
       wwwRoot: "app/www",
+      jsRoot: "app/www/js",
+      cssRoot: "app/www/css",
+      mediaRoot: "app/www/media",
+      imageRoot: "app/www/i",
+      libsRoot: "app/www/libs",
       port: 8080,
       callback: function() {
   			grunt.log.writeln("Web server listening on port " + this.port);
@@ -34,11 +39,11 @@ module.exports = function(grunt) {
 		var
 			httpServer = require("./app/http-server"),
       app = require("./app/app"),
-      logger = require("./app/logger.js")(grunt.config("logger"));
+      logger = global.logger = require("./app/logger.js")(grunt.config("logger"));
       config = {
         webSockets: require("./app/web-sockets"),
         httpServer: grunt.config("httpServer"),
-        mongoServer: grunt.config("mongoServer")
+        mongoServer: grunt.config("mongoServer"),
       };
 
     logger.info("starting app...");

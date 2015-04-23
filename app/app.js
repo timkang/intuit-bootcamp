@@ -1,24 +1,45 @@
 module.exports = function(config) {
 
 	var
+		mongoose = require("mongoose"),
 		express = require("express"),
 		bodyParser = require("body-parser"),
 		multer = require("multer"),
 		session = require('express-session'),
-		//cookieParser = require('cookie-parser')
+		cookieParser = require('cookie-parser'),
 		passport = require("passport"),
 		crypto = require("crypto"),
 		csrf = require("csrf")(),
+		path = require("path"),
 		app = express();
 
-	passport.serializeUser(function(user, done) {
-  	done(null, user);
+	// connect to mongo
+	mongoose.connect("mongodb://" +
+		config.mongoServer.host + ":" +
+		config.mongoServer.port + "/" +
+		config.mongoServer.dbName);
+
+	// serialize account id to session
+	passport.serializeUser(function(account, done) {
+  	done(null, account._id);
 	});
 
-	passport.deserializeUser(function(user, done) {
-  	done(null, user);
+	// deserialize account from the database using is from session
+	passport.deserializeUser(function(accountId, done) {
+		require("./mongoose/accounts.js")
+			.findById(accountId, function(err, account) {
+				done(null, account.toObject());
+			});
 	});
 
+	// serve all static files regardless
+	app.use("/js", express.static(config.httpServer.jsRoot));
+	app.use("/libs", express.static(config.httpServer.libsRoot));
+	app.use("/css", express.static(config.httpServer.cssRoot));
+	app.use("/i", express.static(config.httpServer.imageRoot));
+	app.use("/media", express.static(config.httpServer.mediaRoot));
+
+	// add a json replacer to remove undesired fields from mongo
 	app.set("json replacer", function(key, value) {
 		if (key === "__v") {
 			return undefined;
@@ -26,73 +47,31 @@ module.exports = function(config) {
 		return value;
 	});
 
-	//app.use(cookieParser());
+	// parse cookies...
+	app.use(cookieParser());
+
+	// sessions are used for password and CSRF token ONLY
 	app.use(session({
 		resave: false,
 		saveUninitialized: false,
 		secret : "asecret"
 	}));
 
+	// setup passport for session based logins
 	app.use(passport.initialize());
 	app.use(passport.session());
 
-
 	app.use("/api", bodyParser.json());
+	// disable to help guard against CSRF
 	//app.use("/api", bodyParser.urlencoded({ extended: true }));
 
-	app.post("/api/accounts/authenticate", function(req, res, next) {
+	// authenticate all API requests
+	app.use(require("./routers/authenticate"));
 
-		var user = {
-			id: 1,
-			name: "Test User",
-			username: req.body.username
-		};
+	// validate tokens for all API requests
+	app.use(require("./routers/token-validator"));
 
-		req.login(user, function(err) {
-
-			if (err) {
-				console.dir(err);
-				res.status(500).json(err);
-				return;
-			}
-
-			csrf.secret().then(function(secret) {
-				req.session.csrfSecret = secret;
-				res.set("X-CSRF-Token", csrf.create(req.session.csrfSecret));
-				res.json(user);
-			});
-
-		});
-
-	});
-
-	app.use("/api", function(req, res, next) {
-
-		if (!req.user) {
-			console.log("not a valid user");
-			res.status(401).json({
-				msg: 'not logged in'
-			});
-			return;
-		}
-
-		if (!csrf.verify(req.session.csrfSecret, req.get("X-CSRF-Token"))) {
-			console.log("not a valid token");
-			res.status(401).json({
-				msg: 'not logged in'
-			});
-			return;
-		}
-
-		csrf.secret().then(function(secret) {
-			req.session.csrfSecret = secret;
-			res.set("X-CSRF-Token", csrf.create(req.session.csrfSecret));
-			next();
-		});
-
-
-	});
-
+	// configure file uploads
 	app.use("/api", multer({
 		dest: "./app/uploads",
 		rename: function(fieldName, fileName) {
@@ -100,24 +79,17 @@ module.exports = function(config) {
 		}
 	}));
 
-	app.use("/api", require("./routers/transactions.js")(config));
+	// load REST service endpoints
+	app.use("/api", require("./routers/default.js")("transaction"));
+	app.use("/api", require("./routers/default.js")("account"));
 
-	/*
-	app.use("/", function(req, res, next) {
-		if (req.path === "/" || req.path === "/index.html") {
-			csrf.secret().then(function(secret) {
-				req.session.csrfSecret = secret;
-				res.cookie("csrf-token", csrf.create(req.session.csrfSecret))
-				next();
-			});
-			return;
-		}
-		next();
+	// all other requests should return index.html
+	// needed for HTML5 history API
+	app.use("/", function(req, res) {
+		res.sendFile(path.resolve(path.join("app", "www", "index.html")), null, function(err) {
+			if (err) res.status(err.status).end();
+		});
 	});
-	*/
-
-	app.use(express.static(config.httpServer.wwwRoot));
-
 
 	return app;
 };

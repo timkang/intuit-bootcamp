@@ -7,197 +7,57 @@
 		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
 		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
 		<link href='css/site.css' rel="stylesheet">
-		<script id="transaction-record" type="template/handlebars">
-			<div>
-				<div>
-					<label>Account Number:</label>
-					{{accountNumber}}
-				</div>
-				<div>
-					<label>Payee:</label>
-					{{payee}}
-				</div>
-				<div>
-					<label>Description:</label>
-					{{description}}
-				</div>
-				<div>
-					<label>Tax Item:</label>
-					{{taxItem}}
-				</div>
-				<div>
-					<label>Amount:</label>
-					{{amount}}
-				</div>
-			</div>
-		</script>
-		<script id="transaction-records" type="template/handlebars">
-
-			<table class="table table-bordered">
-				<tr>
-					<td>Account #</td>
-					<td>Payee</td>
-					<td>Description</td>
-					<td>Tax Item</td>
-					<td>Amount</td>
-				</tr>
-				{{#each transactions}}
-					<tr>
-						<td>{{accountNumber}}</td>
-						<td>{{payee}}</td>
-						<td>{{description}}</td>
-						<td>{{taxItem}}</td>
-						<td>{{amount}}</td>
-					</tr>
-				{{/each}}
-			</table>
-
-		</script>
 	</head>
 
 	<body>
-		<button id="log-me-in">Log Me In</button>
-		<br><br>
-		<button id="get-all-transactions">Get All Transactions</button>
-		<br><br>
-		<button id="create-transaction">Create Transaction</button>
-		<br><br>
-		<button id="add-transaction">Add Transaction</button>
-		<br><br>
-		<div id="view"></div>
+
+		<header>
+			<div><h1>MyCheckBook</h1></div>
+			<div>
+				<form class="form-inline">
+				  <div class="form-group">
+				    <label class="sr-only" for="login-email-address">Email address</label>
+				    <input type="email" class="form-control" id="login-email-address" placeholder="Enter email" value="eric@ericwgreene.com">
+				  </div>
+				  <div class="form-group">
+				    <label class="sr-only" for="login-password">Password</label>
+				    <input type="password" class="form-control" id="login-password" placeholder="Password" value="password">
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox"> Remember me
+				    </label>
+				  </div>
+				  <button id="sign-in" type="button" class="btn btn-default">Sign in</button>
+				</form>
+			</div>
+		</header>
+
+		<div id="view" class="container">
+			<div id="welcome">Welcome! Please Login!</div>
+
+			<br><br>
+			<button id="get-all-transactions">Get All Transactions</button>
+			<br><br>
+			<button id="create-transaction">Create Transaction</button>
+			<br><br>
+			<button id="add-transaction">Add Transaction</button>
+			<br><br>
+		</div>
+
+		<footer>
+			<span>&copy; 2015 Roundtuit Software, Inc.</span>
+		</footer>
 
 		<script src="libs/jquery/dist/jquery.js"></script>
 		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
 		<script src="libs/underscore/underscore.js"></script>
 		<script src="libs/backbone/backbone.js"></script>
 		<script src="libs/handlebars/handlebars.js"></script>
-		<script>
-
-			function customSync(method, model, options) {
-				if (!options) {
-					options = {};
-				}
-				options.beforeSend = function(xhr) {
-					xhr.setRequestHeader("X-CSRF-Token", window.csrfToken || document.cookies);
-				};
-				Backbone.sync.call(this, method, model, options)
-					.then(function(data, status, xhr) {
-						window.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
-					});
-			}
-
-			var BaseModel = Backbone.Model.extend({
-				sync: customSync,
-				idAttribute: "_id"
-			});
-
-			var BaseCollection = Backbone.Collection.extend({
-				sync: customSync
-			});
-
-			var Transaction = BaseModel.extend({
-				urlRoot: "/api/transaction",
-				defaults: {
-					accountNumber: null,
-					payee: null,
-					taxItem: "No Tax Item 2",
-					amount: null,
-					description: null
-				}
-			});
-
-			var Transactions = BaseCollection.extend({
-				model: Transaction,
-				url: "/api/transactions"
-			});
-
-			var transactions = new Transactions();
-
-			window.addEventListener("DOMContentLoaded", function() {
-
-				document.getElementById("log-me-in")
-					.addEventListener("click", function() {
-
-						var xhr = new XMLHttpRequest();
-						xhr.onreadystatechange = function() {
-							if (xhr.readyState === 4) {
-
-								window.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
-
-							}
-						}
-
-						xhr.open("POST", "/api/accounts/authenticate");
-						xhr.send(JSON.stringify({
-							"username": "testuser",
-  						"password": "123"
-						}))
-
-				});
-
-				document.getElementById("get-all-transactions")
-					.addEventListener("click", function() {
-
-						console.log(transactions.models);
-						transactions.fetch({
-							success: function() {
-								var source = document.getElementById("transaction-records").innerHTML;
-								var template = Handlebars.compile(source);
-								var html = template({
-									transactions:  transactions.toJSON()
-								});
-								document.getElementById("view").innerHTML = html;
-							}
-						})
-
-
-
-					});
-
-				document.getElementById("create-transaction")
-					.addEventListener("click", function() {
-
-						transactions.create({
-							"accountNumber" : 1,
-							"payee" : "Intuit",
-							"taxItem" : "Business Deduction",
-							"amount" : 39.0000000000000000,
-							"description" : "Paid My Quickbooks Subscription Fee"
-						});
-
-					});
-
-				document.getElementById("add-transaction")
-					.addEventListener("click", function() {
-
-						var t = new Transaction({});
-						t.set("accountNumber", 345);
-						t.set("payee", "Intuit");
-						t.set("taxItem", "Payroll");
-						t.set("amount", 230);
-						t.set("description", "Because I love paying people...");
-						t.save(null, {
-							success: function() {
-								console.dir(t.attributes);
-							}
-						});
-
-						transactions.add(t);
-
-						var source = document.getElementById("transaction-record").innerHTML;
-						var template = Handlebars.compile(source);
-						var html = template(t.attributes);
-						document.getElementById("view").innerHTML = html;
-
-				});
-
-			});
-
-
-
-
-
-		</script>
+		<script src="js/app.common.js"></script>
+		<script src="js/models/transaction.js"></script>
+		<script src="js/collections/transactions.js"></script>
+		<script src="js/app.js"></script>
 	</body>
 
 </html>
