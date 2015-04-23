@@ -16,6 +16,22 @@ this["templates"]["login-status"] = Handlebars.template({"compiler":[6,">= 2.0.0
     + "!</div><button id=\"sign-out\" type=\"button\" class=\"btn btn-default\">Sign Out</button></form>";
 },"useData":true});
 
+this["templates"]["transaction-form"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "<form><div><div><label for=\"account-number\">Account Number:</label><input type=\"text\" id=\"account-number\" name=\"account-number\" value=\""
+    + alias3(((helper = (helper = helpers.accountNumber || (depth0 != null ? depth0.accountNumber : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"accountNumber","hash":{},"data":data}) : helper)))
+    + "\"></div><div><label for=\"payee\">Payee:</label><input type=\"text\" id=\"payee\" name=\"payee\" value=\""
+    + alias3(((helper = (helper = helpers.payee || (depth0 != null ? depth0.payee : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"payee","hash":{},"data":data}) : helper)))
+    + "\"></div><div><label for=\"description\">Description:</label><input type=\"text\" id=\"description\" name=\"description\" value=\""
+    + alias3(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"description","hash":{},"data":data}) : helper)))
+    + "\"></div><div><label for=\"tax-item\">Tax Item:</label><input type=\"text\" id=\"tax-item\" name=\"tax-item\" value=\""
+    + alias3(((helper = (helper = helpers.taxItem || (depth0 != null ? depth0.taxItem : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"taxItem","hash":{},"data":data}) : helper)))
+    + "\"></div><div><label for=\"amount\">Amount:</label><input type=\"text\" id=\"amount\" name=\"amount\" value=\""
+    + alias3(((helper = (helper = helpers.amount || (depth0 != null ? depth0.amount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"amount","hash":{},"data":data}) : helper)))
+    + "\"></div><div><button type=\"button\" id=\"save-transaction\">Save Transaction</button> <button type=\"button\" id=\"cancel-transaction\">Cancel Transaction</button></div></div></form>";
+},"useData":true});
+
 this["templates"]["transaction"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -45,11 +61,13 @@ this["templates"]["transactions"] = Handlebars.template({"1":function(depth0,hel
     + alias3(((helper = (helper = helpers.taxItem || (depth0 != null ? depth0.taxItem : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"taxItem","hash":{},"data":data}) : helper)))
     + "</td><td>"
     + alias3(((helper = (helper = helpers.amount || (depth0 != null ? depth0.amount : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"amount","hash":{},"data":data}) : helper)))
-    + "</td></tr>";
+    + "</td><td><button data-model-id=\""
+    + alias3(((helper = (helper = helpers._id || (depth0 != null ? depth0._id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"_id","hash":{},"data":data}) : helper)))
+    + "\">View</button></td></tr>";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1;
 
-  return "<table class=\"table table-bordered\"><tr><td>Account #</td><td>Payee</td><td>Description</td><td>Tax Item</td><td>Amount</td></tr>"
+  return "<table class=\"table table-bordered\"><tr><td>Account #</td><td>Payee</td><td>Description</td><td>Tax Item</td><td>Amount</td><td>Action</td></tr><tbody>"
     + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.transactions : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "</table>";
+    + "</tbody></table>";
 },"useData":true});

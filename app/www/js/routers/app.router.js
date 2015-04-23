@@ -7,13 +7,21 @@ var AppRouter = Backbone.Router.extend({
 	},
 
 	showHome: function() {
+
+		// only do this if a new is being created
 		if (this.currentView) {
 			this.currentView.undelegateEvents();
 		}
+
+		// create a new view
 		this.currentView = new HomeView({
+			// passing the element passed into the router
 			el: this.options.el,
+			// give view access to the router to navigate in response to events
 			router: this
 		});
+
+		// render the new view
 		this.currentView.render();
 	},
 

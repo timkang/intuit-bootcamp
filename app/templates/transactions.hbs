@@ -5,7 +5,9 @@
 		<td>Description</td>
 		<td>Tax Item</td>
 		<td>Amount</td>
+		<td>Action</td>
 	</tr>
+	<tbody>
 	{{#each transactions}}
 		<tr>
 			<td>{{accountNumber}}</td>
@@ -13,6 +15,8 @@
 			<td>{{description}}</td>
 			<td>{{taxItem}}</td>
 			<td>{{amount}}</td>
+			<td><button data-model-id="{{_id}}">View</button></td>
 		</tr>
 	{{/each}}
+	</tbody>
 </table>

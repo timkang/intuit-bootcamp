@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html dir="ltr">
+
+	<head>
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
+		<link href='css/site.css' rel="stylesheet">
+	</head>
+
+	<body>
+
+		<article id="view-content"></article>
+
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script src="libs/handlebars/handlebars.js"></script>
+		<script src="js/templates.js"></script>
+		<script src="js/app.common.js"></script>
+		<script src="js/models/transaction.model.js"></script>
+		<script src="js/collections/transactions.collection.js"></script>
+
+		<script>
+
+			var TransactionView = Backbone.View.extend({
+
+				events: {
+					"click button": "handleTransaction"
+				},
+
+				template: templates["transaction-form"],
+
+				render: function() {
+					this.$el.html(this.template(this.model));
+				},
+
+				initialize: function(options) {
+					this.options = options;
+				},
+
+				handleTransaction: function(e) {
+					console.log(e.target.id);
+					console.log("handle transaction fired!");
+				}
+
+
+			});
+
+			/*
+			var tView = new TransactionView({
+				el: $("#view-content"),
+				model: {
+					accountNumber: 1,
+					payee: "Microsoft",
+					description: "Azure Billing"
+				}
+				//template: templates["transaction"]
+			});
+			*/
+
+			var TransactionsView = Backbone.View.extend({
+
+				events: {
+					"click tbody": "rowTransaction"
+				},
+
+				template: templates["transactions"],
+
+				render: function() {
+					this.$el.html(this.template({
+						transactions: this.collection
+					}));
+				},
+
+				initialize: function(options) {
+					this.options = options;
+				},
+
+				rowTransaction: function(e) {
+					if (e.target instanceof HTMLButtonElement) {
+						console.dir($(e.target).attr("data-model-id"));
+						console.log("handle transaction fired!");
+						console.dir($(e.target).closest("tr"));
+					}
+				}
+			});
+
+			var ts = new Transactions();
+			ts.fetch({ success: function() {
+				var tsView = new TransactionsView({
+					el: $("#view-content"),
+					collection: ts.toJSON()
+				});
+
+				console.dir(tsView);
+
+				tsView.render();
+			}});
+
+
+
+
+
+
+
+		</script>
+
+	</body>
+
+</html>

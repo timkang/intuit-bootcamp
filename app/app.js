@@ -34,12 +34,12 @@ module.exports = function(config) {
 	});
 
 	// serve all static files regardless
+	//app.use(express.static(config.httpServer.wwwRoot));
 	app.use("/js", express.static(config.httpServer.jsRoot));
 	app.use("/libs", express.static(config.httpServer.libsRoot));
 	app.use("/css", express.static(config.httpServer.cssRoot));
 	app.use("/i", express.static(config.httpServer.imageRoot));
 	app.use("/media", express.static(config.httpServer.mediaRoot));
-
 	// add a json replacer to remove undesired fields from mongo
 	app.set("json replacer", function(key, value) {
 		if (key === "__v") {
@@ -67,10 +67,10 @@ module.exports = function(config) {
 	//app.use("/api", bodyParser.urlencoded({ extended: true }));
 
 	// authenticate all API requests
-	app.use(require("./routers/authenticate"));
+	//app.use(require("./routers/authenticate"));
 
 	// validate logged in and tokens for all API requests
-	app.use(require("./routers/api-request-validator"));
+	//app.use(require("./routers/api-request-validator"));
 
 	// configure file uploads
 	app.use("/api", multer({
