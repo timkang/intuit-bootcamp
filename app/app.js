@@ -69,8 +69,8 @@ module.exports = function(config) {
 	// authenticate all API requests
 	app.use(require("./routers/authenticate"));
 
-	// validate tokens for all API requests
-	app.use(require("./routers/token-validator"));
+	// validate logged in and tokens for all API requests
+	app.use(require("./routers/api-request-validator"));
 
 	// configure file uploads
 	app.use("/api", multer({
