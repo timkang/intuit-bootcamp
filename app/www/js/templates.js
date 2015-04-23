@@ -1,7 +1,7 @@
 this["templates"] = this["templates"] || {};
 
 this["templates"]["home"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div id=\"welcome\">Welcome! Please Login!</div>";
+    return "<div id=\"welcome\">Welcome!!!!! Please Login!</div>";
 },"useData":true});
 
 this["templates"]["login-form"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
