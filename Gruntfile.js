@@ -93,7 +93,8 @@ module.exports = function(grunt) {
 
     logger.info("starting app...");
 
-    this.async();
+    // not need when running watch task, this async will block the watch task
+    //this.async();
     config.app = app(config);
     httpServer(config);
 	});

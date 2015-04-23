@@ -1,6 +1,10 @@
 this["templates"] = this["templates"] || {};
 
-this["templates"]["transaction-record"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+this["templates"]["home"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<div id=\"welcome\">Welcome! Please Login!</div><br><br><button id=\"get-all-transactions\">Get All Transactions</button><br><br><button id=\"create-transaction\">Create Transaction</button><br><br><button id=\"add-transaction\">Add Transaction</button><br><br>";
+},"useData":true});
+
+this["templates"]["transaction"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "<div><div><label>Account Number:</label>"
@@ -16,7 +20,7 @@ this["templates"]["transaction-record"] = Handlebars.template({"compiler":[6,">=
     + "</div></div>";
 },"useData":true});
 
-this["templates"]["transaction-records"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+this["templates"]["transactions"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "<tr><td>"

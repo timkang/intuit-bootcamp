@@ -28,6 +28,13 @@ window.addEventListener("DOMContentLoaded", function() {
 			}));
 	});
 
+	var appRouter = new AppRouter({
+		el: $("#view")[0]
+	});
+	Backbone.history.start({ pushState: false });
+
+	/*
+
 	document.getElementById("get-all-transactions")
 		.addEventListener("click", function() {
 			transactions.fetch({
@@ -69,5 +76,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 			$("#view").append(templates["transaction-record"](t.attributes));
 	});
+
+	*/
 
 });
