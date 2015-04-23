@@ -57,10 +57,11 @@ module.exports = function(grunt) {
 	        removeComments: true,
 	        collapseWhitespace: true
 	      },
-	      files: {
-					"app/templates-min/transaction-record.min.hbs": "app/templates/transaction-record.hbs",
-          "app/templates-min/transaction-records.min.hbs": "app/templates/transaction-records.hbs"
-	      }
+        expand: true,
+        cwd: 'app/templates',
+        src: '*.hbs',
+        dest: 'app/templates-min/',
+        ext: ".min.hbs"
 	    }
 		},
 		watch: {
