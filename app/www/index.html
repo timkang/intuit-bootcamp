@@ -7,9 +7,29 @@
 		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
 		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
 		<link href='css/site.css' rel="stylesheet">
+		<script id="stamps-template" type="template/x-handlebars">
+			<button type="button" id="list-view-refresh-button">Refresh</button>
+			<table class='table table-bordered'>
+				<tr>
+					<th>Id</th>
+					<th>Price</th>
+					<th>Weight</th>
+				</tr>
+				{{#each stamps}}
+					<tr>
+						<td>{{id}}</td>
+						<td>{{price}}</td>
+						<td>{{oz}}</td>
+					</tr>
+				{{/each}}
+			</table>
+		</script>
 	</head>
 
 	<body>
+
+		<div id="view-content"></div>
+
 		<script src="libs/jquery/dist/jquery.js"></script>
 		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
 		<script src="libs/underscore/underscore.js"></script>
@@ -28,48 +48,97 @@
 
 		<script>
 
-			var PersonModel = Backbone.Model.extend({
+			var StampModel = Backbone.Model.extend({
 
-				validate: function(attrs, options) {
+			});
 
-					var errors = [];
+			var StampCollection = Backbone.Collection.extend({
 
-					if (attrs.age < 13) {
-						errors.push("you must be 13 or older to waste your life on this site...");
-					}
+			});
 
-					return errors.length ? errors : undefined;
+			var usFirstClass = new StampModel({
+				id: 1,
+				price: 0.49,
+				oz: 13
+			});
+
+			var usPostcard = new StampModel({
+				id: 2,
+				price: 0.31,
+				oz: 2
+			});
+
+			var upsGround = new StampModel({
+				id: 3,
+				price: 2.34,
+				oz: 16
+			});
+
+			var usPriority = new StampModel({
+				id: 4,
+				price: 0.99,
+				oz: 16
+			});
+
+			var stamps = new StampCollection();
+			stamps.add(usFirstClass);
+			stamps.add(usPostcard);
+			stamps.add(upsGround);
+			stamps.add(usPriority);
+
+			console.dir(stamps);
+
+			var ListView = Backbone.View.extend({
+
+				events: {
+					"click #list-view-refresh-button": "refresh"
+				}
+
+				render: function() {
+					this.$el.html(this.template(
+						this.transformation(this.collection.toJSON())));
 				},
 
-				initialize: function() {
-
-					this.on("invalid", function() {
-						console.log(sarah.validationError);
+				initialize: function(options) {
+					this.template = options.template;
+					this.transformation = options.transformation;
+					this.listenTo(this.collection, "add", function() {
+						this.render();
 					});
+				},
 
-					this.on("change:lastName", function(model, value, options) {
-						console.log("new first name: " + value);
-						console.dir(options);
-					})
-
+				refresh: function() {
+					this.collection.fetch({
+						success: function() {
+							this.render();
+						}
+					});
 				}
 
 			});
 
-			var sarah = new PersonModel({
-				age: 47,
-				firstName: "Sarah",
-				lastName: "Greene"
+			var stampsView = new ListView({
+				transformation: function(models) {
+					return { stamps: models };
+				},
+				template: Handlebars.compile(document.getElementById("stamps-template").innerHTML),
+				el: "#view-content",
+				collection: stamps
 			});
-			//sarah.set("age", 12, { validate: true, customOption: "eric is not cool" });
 
-			sarah.set({
-				age: 13,
-				firstName: "Sarah",
-				lastName: "Fields"
-			}, { validate: true, silent: false });
+			stampsView.render();
 
-			console.log(sarah.attributes);
+			setTimeout(function() {
+
+				var usBulkRate = new StampModel({
+					id: 5,
+					price: 0.23,
+					oz: 8
+				});
+				stamps.add(usBulkRate);
+
+			}, 5000);
+
 
 		</script>
 
