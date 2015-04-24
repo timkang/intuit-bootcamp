@@ -64,7 +64,7 @@ module.exports = function(config) {
 
 	app.use("/api", bodyParser.json());
 	// disable to help guard against CSRF
-	//app.use("/api", bodyParser.urlencoded({ extended: true }));
+	app.use("/api", bodyParser.urlencoded({ extended: true }));
 
 	// authenticate all API requests
 	//app.use(require("./routers/authenticate"));

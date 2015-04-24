@@ -30,6 +30,7 @@ var AppRouter = Backbone.Router.extend({
 			this.currentView.undelegateEvents();
 		}
 		this.currentView = new TransactionsView({
+			collection: new Transactions(),
 			el: this.options.el,
 			router: this
 		});

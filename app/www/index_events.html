@@ -10,6 +10,9 @@
 	</head>
 
 	<body>
+
+		<div id="view-content" class="container"></div>
+
 		<script src="libs/jquery/dist/jquery.js"></script>
 		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
 		<script src="libs/underscore/underscore.js"></script>
@@ -25,54 +28,36 @@
 		<script src="js/views/transactions.view.js"></script>
 		<script src="js/routers/app.router.js"></script>
 		<!-- <script src="js/app.js"></script> -->
-
 		<script>
 
-			var PersonModel = Backbone.Model.extend({
+			var obj = {}, obj2 = {};
 
-				validate: function(attrs, options) {
+			_.extend(obj, Backbone.Events);
+			_.extend(obj2, Backbone.Events);
 
-					var errors = [];
+			obj.name = "obj";
+			obj2.name = "obj2";
 
-					if (attrs.age < 13) {
-						errors.push("you must be 13 or older to waste your life on this site...");
-					}
+			console.dir(obj);
 
-					return errors.length ? errors : undefined;
-				},
-
-				initialize: function() {
-
-					this.on("invalid", function() {
-						console.log(sarah.validationError);
-					});
-
-					this.on("change:lastName", function(model, value, options) {
-						console.log("new first name: " + value);
-						console.dir(options);
-					})
-
-				}
-
+			obj2.listenTo(obj, "justdoit", function() {
+				console.log("obj2 is listening");
+				console.dir(this);
+				console.dir(arguments);
 			});
 
-			var sarah = new PersonModel({
-				age: 47,
-				firstName: "Sarah",
-				lastName: "Greene"
+			obj.on("justdoit", function() {
+				console.dir(arguments);
+				console.log("justdoit");
 			});
-			//sarah.set("age", 12, { validate: true, customOption: "eric is not cool" });
 
-			sarah.set({
-				age: 13,
-				firstName: "Sarah",
-				lastName: "Fields"
-			}, { validate: true, silent: false });
+			obj.trigger("justdoit", {
+				somedata: "some data"
+			});
 
-			console.log(sarah.attributes);
+
 
 		</script>
-
 	</body>
 
 </html>

@@ -1,7 +1,12 @@
 var TransactionsView = Backbone.View.extend({
 
 	render: function() {
-		this.$el.html(templates["transactions"]())
+		var that = this;
+		this.collection.fetch({
+			success: function() {
+				that.$el.html(templates["transactions"]({ transactions: that.collection.toJSON() }))
+			}
+		});
 	},
 
 	initialize: function(options) {

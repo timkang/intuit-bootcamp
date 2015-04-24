@@ -10,11 +10,15 @@
 	</head>
 
 	<body>
+
+		<div id="view-content" class="container"></div>
+
 		<script src="libs/jquery/dist/jquery.js"></script>
 		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
 		<script src="libs/underscore/underscore.js"></script>
 		<script src="libs/backbone/backbone.js"></script>
 		<script src="libs/handlebars/handlebars.js"></script>
+		<script src="libs/localforage/dist/localforage.js"></script>
 		<script src="js/templates.js"></script>
 		<script src="js/app.common.js"></script>
 		<script src="js/models/transaction.model.js"></script>
@@ -25,54 +29,59 @@
 		<script src="js/views/transactions.view.js"></script>
 		<script src="js/routers/app.router.js"></script>
 		<!-- <script src="js/app.js"></script> -->
-
 		<script>
 
 			var PersonModel = Backbone.Model.extend({
 
-				validate: function(attrs, options) {
-
-					var errors = [];
-
-					if (attrs.age < 13) {
-						errors.push("you must be 13 or older to waste your life on this site...");
-					}
-
-					return errors.length ? errors : undefined;
-				},
 
 				initialize: function() {
-
-					this.on("invalid", function() {
-						console.log(sarah.validationError);
+					this.on("change:age", function(model, value, options) {
+						console.log(model.get("age"));
+						console.log("age changed to: " + value);
 					});
 
-					this.on("change:lastName", function(model, value, options) {
-						console.log("new first name: " + value);
-						console.dir(options);
-					})
+					this.diary = {
+						entries: []
+					};
 
+					this.on("sends_text", function(e) {
+						console.log("coordinate with parents...");
+					});
+				},
+
+				sendText: function(recipient, message) {
+					console.log(recipient + ": " + message);
+					// sends the text message to an SMS service...
+					this.trigger("sends_text", {
+						to: recipient,
+						msg: message
+					});
 				}
 
 			});
 
-			var sarah = new PersonModel({
-				age: 47,
-				firstName: "Sarah",
-				lastName: "Greene"
+			console.dir(PersonModel);
+
+			var sarah = new PersonModel();
+			sarah.diary.entries.push({
+				msg: "I love Ben!!!"
 			});
-			//sarah.set("age", 12, { validate: true, customOption: "eric is not cool" });
+			console.dir(sarah);
+			sarah.set("age", 42);
+			console.log(sarah.get("age"));
 
-			sarah.set({
-				age: 13,
-				firstName: "Sarah",
-				lastName: "Fields"
-			}, { validate: true, silent: false });
+			var dad = new PersonModel();
+			dad.listenTo(sarah, "sends_text", function() {
+				console.log("fill up the gas tank...");
+			});
+			dad.set("age", 37);
+			console.log(dad.get("age"));
 
-			console.log(sarah.attributes);
+			sarah.sendText("Ben", "want to go to the movies...");
+
+			console.log(dad.diary);
 
 		</script>
-
 	</body>
 
 </html>
