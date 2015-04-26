@@ -1,35 +1,34 @@
-.header-footer, body > header, body > footer {
-  padding: 15px;
-  color: #FFFFFF; }
-
-body > header {
-  background-color: #191997;
-  border-bottom: #00008B 1px solid; }
-  body > header::after, body > header::before {
-    display: table;
-    content: " "; }
-  body > header::after {
-    clear: both; }
-  body > header > div > h1 {
-    padding: 0;
-    margin: 0; }
-  body > header > div:first-child {
-    float: left; }
-  body > header > div:last-child {
-    float: right; }
-body > footer {
-  font-size: 1em;
-  text-align: center;
-  background-color: #555555;
-  border-top: #999999 solid 1px; }
-
-#form-login > div, #form-status > div {
-  margin-right: 10px; }
-
-#welcome {
-  font-size: 3em;
-  text-align: center;
-  font-weight: bold;
-  margin: 40px; }
+@keyframes red-to-blue {
+  from {
+    background-color: red; }
+  to {
+    background-color: blue; } }
+@-webkit-keyframes red-to-blue {
+  from {
+    background-color: red; }
+  to {
+    background-color: blue; } }
+#my-box {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 200px;
+  height: 200px;
+  animation-name: red-to-blue;
+  animation-duration: 4s;
+  animation-timing-function: ease;
+  animation-delay: 0;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-play-state: running;
+  animation-fill-mode: none;
+  -webkit-animation-name: red-to-blue;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-delay: 0;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: none; }
 
 /*# sourceMappingURL=site.css.map */
