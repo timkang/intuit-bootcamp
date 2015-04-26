@@ -64,9 +64,11 @@ module.exports = function(grunt) {
         ext: ".min.hbs"
 	    }
 		},
-
     sass: {
 			main: {
+        options: {
+          sourcemap: "none"
+        },
 				files: {
 					"app/www/css/site.css": "app/sass/site.scss"
 				}
@@ -74,6 +76,10 @@ module.exports = function(grunt) {
 		},
 		cssmin: {
 			main: {
+        options: {
+          keepSpecialComments: 0,
+          sourceMap: false
+        },
 				files: {
 					"app/www/css/site.min.css": [
             'app/www/libs/bootstrap/dist/css/bootstrap.css',
@@ -128,7 +134,6 @@ module.exports = function(grunt) {
         }
       }
 		},
-
     compress: {
       js: {
         options: {

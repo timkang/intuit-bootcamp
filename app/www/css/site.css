@@ -1,13 +1,74 @@
+/*
+	Name: animate-setup
+	Description: Setups up the animation key frames for the named animation.
+	Parameters:
+	  $animation-name
+	  @content
+	Compatibility: Provides browser specific style for webkit.
+*/
+/*
+	Name: animate-me
+	Description: Assigns and configures the named animation to an element.
+	Parameters:
+	  $animation-name
+		$animation-duration
+		$animation-fill-mode
+		$animation-timing-function
+		$animation-delay
+		$animation-iteration-count
+		$animation-direction
+		$animation-play-state
+	Compatibility: Provides browser specific style for webkit.
+*/
+/*
+	Name: transform
+	Description: Applies a transform to an element in a cross browser manner.
+	Parameters:
+	  $transform
+		$transform-origin
+	Compatibility: Provides browser specific style for webkit.
+*/
+/*
+	Name: transition
+	Description: Applies a single/multiple transition to an element in a cross browser manner.
+	Parameters:
+	  $transition
+	Compatibility: Provides browser specific style for webkit.
+*/
+/*
+	Name: transition-prop
+	Description: Applies a single transition to an element in a cross browser manner.
+	Parameters:
+	  $transition-property
+	  $transition-duration
+	  $transition-delay
+	  $transition-timing-function
+	Compatibility: Provides browser specific style for webkit.
+*/
+/*
+	Name: transition-props
+	Description: Applies a single/multiple transition to an element in a cross browser manner.
+	Parameters:
+	  $transition-property
+	  $transition-duration
+	  $transition-delay
+	  $transition-timing-function
+	Compatibility: Provides browser specific style for webkit.
+*/
 #my-box {
   position: absolute;
   top: 100px;
   left: 100px;
   width: 200px;
   height: 200px;
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+  -ms-transform-origin: 50% 50% 0;
+  /* IE 9 */
+  -webkit-transform-origin: 50% 50% 0;
+  /* Chrome, Safari, Opera */
+  transform-origin: 50% 50% 0;
   background-color: blue; }
-
-#my-box:hover {
-  width: 300px;
-  height: 600px; }
-
-/*# sourceMappingURL=site.css.map */

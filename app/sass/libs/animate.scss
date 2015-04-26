@@ -1,8 +1,30 @@
+/*
+	Name: animate-setup
+	Description: Setups up the animation key frames for the named animation.
+	Parameters:
+	  $animation-name
+	  @content
+	Compatibility: Provides browser specific style for webkit.
+*/
 @mixin animate-setup($animation-name) {
 	@keyframes #{$animation-name} { @content; }
 	@-webkit-keyframes #{$animation-name} { @content; }
 }
 
+/*
+	Name: animate-me
+	Description: Assigns and configures the named animation to an element.
+	Parameters:
+	  $animation-name
+		$animation-duration
+		$animation-fill-mode
+		$animation-timing-function
+		$animation-delay
+		$animation-iteration-count
+		$animation-direction
+		$animation-play-state
+	Compatibility: Provides browser specific style for webkit.
+*/
 @mixin animate-me(
 	$animation-name:none,
 	$animation-duration:0,
