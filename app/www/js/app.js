@@ -2,6 +2,7 @@ var transactions = new Transactions();
 
 window.addEventListener("DOMContentLoaded", function() {
 
+	debugger;
 
 	var appRouter = new AppRouter({
 		el: $("#view-content")[0]
