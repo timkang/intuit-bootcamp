@@ -1,0 +1,38 @@
+@mixin transition($transition) {
+	-webkit-transition: #{$transition};
+	transition: #{$transition};
+}
+
+@mixin transition-prop(
+	$transition-property:all,
+	$transition-duration:0,
+	$transition-delay:0,
+	$transition-timing-function:ease) {
+
+	transition-property: $transition-property;
+	transition-duration: $transition-duration;
+	transition-delay: $transition-delay;
+	transition-timing-function: $transition-timing-function;
+
+	-webkit-transition-property: $transition-property;
+	-webkit-transition-duration: $transition-duration;
+	-webkit-transition-delay: $transition-delay;
+	-webkit-transition-timing-function: $transition-timing-function;
+}
+
+@mixin transition-props(
+	$transition-property:all,
+	$transition-duration:0,
+	$transition-delay:0,
+	$transition-timing-function:ease) {
+
+	transition-property: #{$transition-property};
+	transition-duration: #{$transition-duration};
+	transition-delay: #{$transition-delay};
+	transition-timing-function: #{$transition-timing-function};
+
+	-webkit-transition-property: #{$transition-property};
+	-webkit-transition-duration: #{$transition-duration};
+	-webkit-transition-delay: #{$transition-delay};
+	-webkit-transition-timing-function: #{$transition-timing-function};
+}
