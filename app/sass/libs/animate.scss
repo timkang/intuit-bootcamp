@@ -17,9 +17,9 @@
 	Parameters:
 	  $animation-name
 		$animation-duration
-		$animation-fill-mode
 		$animation-timing-function
 		$animation-delay
+		$animation-fill-mode
 		$animation-iteration-count
 		$animation-direction
 		$animation-play-state
@@ -28,9 +28,9 @@
 @mixin animate-me(
 	$animation-name:none,
 	$animation-duration:0,
-	$animation-fill-mode:none,
 	$animation-timing-function:ease,
 	$animation-delay:0,
+	$animation-fill-mode:none,
 	$animation-iteration-count:1,
 	$animation-direction:normal,
 	$animation-play-state:running) {

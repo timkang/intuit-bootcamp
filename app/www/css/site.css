@@ -12,9 +12,9 @@
 	Parameters:
 	  $animation-name
 		$animation-duration
-		$animation-fill-mode
 		$animation-timing-function
 		$animation-delay
+		$animation-fill-mode
 		$animation-iteration-count
 		$animation-direction
 		$animation-play-state
@@ -55,20 +55,53 @@
 	  $transition-timing-function
 	Compatibility: Provides browser specific style for webkit.
 */
+@keyframes box-rotate {
+  to {
+    background-color: blue;
+    -ms-transform: rotate(360deg);
+    /* IE 9 */
+    -webkit-transform: rotate(360deg);
+    /* Chrome, Safari, Opera */
+    transform: rotate(360deg);
+    -ms-transform-origin: 0px 0px 0;
+    /* IE 9 */
+    -webkit-transform-origin: 0px 0px 0;
+    /* Chrome, Safari, Opera */
+    transform-origin: 0px 0px 0; } }
+@-webkit-keyframes box-rotate {
+  to {
+    background-color: blue;
+    -ms-transform: rotate(360deg);
+    /* IE 9 */
+    -webkit-transform: rotate(360deg);
+    /* Chrome, Safari, Opera */
+    transform: rotate(360deg);
+    -ms-transform-origin: 0px 0px 0;
+    /* IE 9 */
+    -webkit-transform-origin: 0px 0px 0;
+    /* Chrome, Safari, Opera */
+    transform-origin: 0px 0px 0; } }
 #my-box {
   position: absolute;
-  top: 100px;
-  left: 100px;
+  background-color: red;
+  top: 300px;
+  left: 300px;
   width: 200px;
   height: 200px;
-  -ms-transform: rotate(90deg);
-  /* IE 9 */
-  -webkit-transform: rotate(90deg);
-  /* Chrome, Safari, Opera */
-  transform: rotate(90deg);
-  -ms-transform-origin: 50% 50% 0;
-  /* IE 9 */
-  -webkit-transform-origin: 50% 50% 0;
-  /* Chrome, Safari, Opera */
-  transform-origin: 50% 50% 0;
+  animation-name: box-rotate;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-play-state: running;
+  animation-fill-mode: none;
+  -webkit-animation-name: box-rotate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-delay: 0;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -webkit-animation-play-state: running;
+  -webkit-animation-fill-mode: none;
   background-color: blue; }
