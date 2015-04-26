@@ -157,7 +157,7 @@ module.exports = function(grunt) {
 				}
 			},
       css: {
-				files: "sass/**/*.scss",
+				files: "app/sass/**/*.scss",
 				tasks: ["sass","cssmin","compress:css"]
 			},
 			js: {
