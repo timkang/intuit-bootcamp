@@ -1,22 +1,4 @@
 @import "libs/animate";
 @import "libs/transform";
 @import "libs/transition";
-
-@include animate-setup(box-rotate) {
-	to {
-		background-color:blue;
-		@include transform("rotate(360deg)", "0px 0px 0");
-	};
-};
-
-#my-box {
-	position:absolute;
-	background-color:red;
-	top:300px;
-	left:300px;
-	width:200px;
-	height:200px;
-	@include animate-me(box-rotate, 1s, linear);
-
-	background-color:blue;
-}
+@import "libs/responsive";

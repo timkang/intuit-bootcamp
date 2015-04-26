@@ -55,53 +55,30 @@
 	  $transition-timing-function
 	Compatibility: Provides browser specific style for webkit.
 */
-@keyframes box-rotate {
-  to {
-    background-color: blue;
-    -ms-transform: rotate(360deg);
-    /* IE 9 */
-    -webkit-transform: rotate(360deg);
-    /* Chrome, Safari, Opera */
-    transform: rotate(360deg);
-    -ms-transform-origin: 0px 0px 0;
-    /* IE 9 */
-    -webkit-transform-origin: 0px 0px 0;
-    /* Chrome, Safari, Opera */
-    transform-origin: 0px 0px 0; } }
-@-webkit-keyframes box-rotate {
-  to {
-    background-color: blue;
-    -ms-transform: rotate(360deg);
-    /* IE 9 */
-    -webkit-transform: rotate(360deg);
-    /* Chrome, Safari, Opera */
-    transform: rotate(360deg);
-    -ms-transform-origin: 0px 0px 0;
-    /* IE 9 */
-    -webkit-transform-origin: 0px 0px 0;
-    /* Chrome, Safari, Opera */
-    transform-origin: 0px 0px 0; } }
-#my-box {
-  position: absolute;
-  background-color: red;
-  top: 300px;
-  left: 300px;
-  width: 200px;
-  height: 200px;
-  animation-name: box-rotate;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-delay: 0;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-play-state: running;
-  animation-fill-mode: none;
-  -webkit-animation-name: box-rotate;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-delay: 0;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-direction: normal;
-  -webkit-animation-play-state: running;
-  -webkit-animation-fill-mode: none;
-  background-color: blue; }
+@media screen and (max-width: 767px) {
+  .tablet-visible {
+    display: none; }
+
+  .desktop-visible {
+    display: none; }
+
+  .mobile-hidden {
+    display: none; } }
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .mobile-visible {
+    display: none; }
+
+  .desktop-visible {
+    display: none; }
+
+  .tablet-hidden {
+    display: none; } }
+@media screen and (min-width: 992px) {
+  .mobile-visible {
+    display: none; }
+
+  .tablet-visible {
+    display: none; }
+
+  .desktop-hidden {
+    display: none; } }
