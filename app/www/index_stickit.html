@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href="css/site.css" rel="stylesheet">
+		<script id="contact-form" type="template/x-handlebars">
+
+			<form>
+				<header></header>
+				<div>
+					<label for="contact-name">Name:</label>
+					<input type="text" id="contact-name">
+				</div>
+				<div>
+					<label for="contact-state">State:</label>
+					<select id="contact-state"></select>
+				</div>
+				<div>
+					<button type="button" id="button-original">Set to Original Value</button>
+				</div>
+			</form>
+
+		</script>
+	</head>
+
+	<body>
+
+		<div id="content-view"></div>
+
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script src="libs/backbone.stickit/backbone.stickit.js"></script>
+		<script src="libs/handlebars/handlebars.js"></script>
+
+		<script>
+
+			var ContactModel = Backbone.Model.extend({
+
+
+				initialize: function() {
+					this.on("change:contact-name", function(model, value, options) {
+						console.log(this.get("contact-name"));
+						console.log(options);
+						console.log("StickIt Change? " + options.stickitChange ? "Yes": "No");
+					})
+				}
+
+			});
+
+			var ContactFormView = Backbone.View.extend({
+
+				bindings: function() {
+
+					return {
+						"header": {
+							observe: "header",
+							updateMethod: "html",
+							escape: false,
+							initialize: function($el, model, options) {
+								console.log("called stickit header");
+							},
+							destroy: function($el, model, options) {
+								console.log("called unstickit header");
+							}
+						},
+						//"#contact-name": "contact-name"
+						"#contact-name": {
+							observe: "contact-name",
+							setOptions: {
+								validate: false
+							},
+							initialize: function($el, model, options) {
+								console.log("called stickit contact name");
+							},
+							destroy: function($el, model, options) {
+								console.log("called unstickit contact name");
+							},
+							onGet: function(value, options) {
+								// used for formatting
+								console.log("on get");
+								return value;
+							},
+							onSet: function(value, options) {
+								console.log("on set");
+								return value;
+							},
+							getVal: function($el, event, options) {
+								return $el.val();
+							},
+							update: function($el, val, model, options) {
+								// used for changing how the element is set
+								$el.val(val);
+							},
+							updateView: function(val, event, options) {
+								return true;
+							},
+							updateModel: function(val, event, options) {
+								return true;
+							}
+						}
+					};
+				},
+
+				events: {
+					"click #button-original": function() {
+						this.model.set("contact-name", "Bob Smith");
+					}
+				},
+
+				render: function() {
+					var source = document.getElementById("contact-form").innerHTML;
+					var tpl = Handlebars.compile(source);
+					var html = tpl(this.model.attributes);
+					this.$el.html(html);
+					return;
+					this.stickit();
+					//this.unstickit(null, "header");
+
+					console.dir(this._modelBindings);
+
+					this.addBinding(null, "#contact-state", {
+						observe: "contact-state",
+						initialize: function($el, model, options) {
+							console.log("called stickit contact state");
+						},
+						selectOptions: {
+							collection: [
+								{ name: "California", code: "CA" },
+								{ name: "Virginia", code: "VA" }
+							],
+							labelPath: "name",
+							valuePath: "code"
+						}
+					});
+
+					//console.dir(Backbone.Stickit.getConfiguration(this.$el, "header"));
+
+				},
+
+				initialize: function(options) {
+					this.options = options;
+				}
+
+			});
+
+			var contact = new ContactModel({
+				"header": "<h1>Contact Form</h1>",
+				"contact-name": "Bob Smith"
+			});
+
+			var contactForm = new ContactFormView({
+				el: "#content-view",
+				model: contact
+			});
+			contactForm.render();
+
+
+		</script>
+
+	</body>
+
+</html>

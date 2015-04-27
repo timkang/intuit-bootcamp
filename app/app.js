@@ -44,7 +44,7 @@ module.exports = function(config) {
 	}));
 
 	// no longer needed because uglify is combining the lib files with the app files
-	//app.use("/libs", express.static(config.httpServer.libsRoot));
+	app.use("/libs", express.static(config.httpServer.libsRoot));
 
 	app.use("/css", express.static(config.httpServer.cssRoot, {
 		setHeaders: function(res, filePath) {
