@@ -1,0 +1,65 @@
+@import 'configs/variables';
+
+.header-footer {
+	padding: $header-footer-padding;
+	color: $header-footer-text-color;
+}
+
+@mixin text-style($font-size, $text-align) {
+	font-size:$font-size;
+	text-align:$text-align;
+}
+
+body {
+
+	> header {
+
+		@extend .header-footer;
+		background-color: $header-background-color;
+		border-bottom: $header-border-bottom;
+
+		&::after, &::before {
+			display:table;
+			content: " ";
+		}
+
+		&::after {
+			clear:both;
+		}
+
+		> div {
+			> h1 {
+				padding:0;
+				margin:0;
+			}
+
+			&:first-child {
+				float:left;
+			}
+
+			&:last-child {
+				float:right;
+			}
+		}
+
+	}
+
+	> footer {
+
+		@extend .header-footer;
+		@include text-style(1em, center);
+		background-color:$footer-background-color;
+		border-top:$footer-border-top;
+	}
+
+}
+
+#form-login > div, #form-status > div {
+	margin-right:10px;
+}
+
+#welcome {
+	@include text-style(3em, center);
+	font-weight:bold;
+	margin:40px;
+}

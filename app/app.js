@@ -38,7 +38,7 @@ module.exports = function(config) {
 	app.use("/js", express.static(config.httpServer.jsRoot, {
 		setHeaders: function(res, filePath) {
 			if (/.gz.js$/.test(filePath)) {
-				res.setHeader("Content-Encoding", "gzip")
+				res.setHeader("Content-Encoding", "gzip");
 			}
 		}
 	}));
@@ -49,7 +49,7 @@ module.exports = function(config) {
 	app.use("/css", express.static(config.httpServer.cssRoot, {
 		setHeaders: function(res, filePath) {
 			if (/.gz.css$/.test(filePath)) {
-				res.setHeader("Content-Encoding", "gzip")
+				res.setHeader("Content-Encoding", "gzip");
 			}
 		}
 	}));

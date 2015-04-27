@@ -167,7 +167,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: ["app/www/js/**/*.js", "!app/www/js/*.min.js"],
-				tasks: ["uglify","compress:js"]
+				tasks: ["uglify:combine","compress:js"]
 			}
 		}
   });

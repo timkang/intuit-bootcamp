@@ -1,0 +1,36 @@
+@import "libs/animate";
+
+@include animate-setup(button-hover) {
+	from { background-color:blue;
+	color:white; };
+	to { background-color:white; color:blue; };
+};
+
+@include animate-setup(button-hover-2) {
+	25% {
+		left:400px;
+		background-color:blue;
+	};
+	50% { background-color:red; };
+	75% { background-color:green; };
+	100% { background-color:orange; };
+};
+
+
+button {
+
+	position:absolute;
+	top:100px;
+	left:100px;
+	width:200px;
+	height:45px;
+	background-color:blue;
+	color:white;
+	font-size:32px;
+
+	//@include animate-me(sample, 4s);
+}
+
+button:hover {
+	@include animate-me(button-hover, 1s);
+}
