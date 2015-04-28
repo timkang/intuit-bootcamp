@@ -7,126 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Intuit Boot Camp Demonstrations</title>
+		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
 		<link href="css/site.css" rel="stylesheet">
-		<script id="donation-form" type="template/x-handlerbars">
-			<form>
 
-				<header></header>
-
-				<div>
-					<label for="donation-first-name">First Name</label>
-					<input id="donation-first-name">
-				</div>
-
-				<div>
-					<label for="donation-state">State</label>
-					<select id="donation-state"></select>
-				</div>
-
-			</form>
+		<script id="root-template" type="template/x-handlebars">
+			<header id="page-header"></header>
+			<article id="main-content"></article>
 		</script>
+		<script id="header-template" type="template/x-handlebars">
+			<h1>Sample App</h1>
+		</script>
+		<script id="content-template" type="template/x-handlebars">
+			<h2>Welcome!</h2>
+			<p>Some welcome content!</p>
+			<ul>
+				<li><a href="#/">Home</a></li>
+				<li><a href="#/pages">Pages</a></li>
+			</ul>
+		</script>
+
+		<script data-main="js/main" src="libs/requirejs/require.js"></script>
 	</head>
 
 	<body>
-
-		<div id="content-view"></div>
-
-		<script src="libs/jquery/dist/jquery.js"></script>
-		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
-		<script src="libs/underscore/underscore.js"></script>
-		<script src="libs/backbone/backbone.js"></script>
-		<script src="libs/backbone.stickit/backbone.stickit.js"></script>
-		<script src="libs/handlebars/handlebars.js"></script>
-
-		<script>
-
-			var Donation = Backbone.Model.extend({
-
-				initialize: function() {
-
-					this.on("change:firstName", function(model, value, options) {
-						console.log(value);
-					});
-
-				}
-
-			});
-
-			var DonationForm = Backbone.View.extend({
-
-				bindings: {
-					//"#donation-first-name": "firstName"
-					"header": {
-						observe: "header",
-						updateMethod: "html"
-					},
-					"#donation-first-name": {
-						observe: "firstName",
-						initialize: function($el, model, binding) {
-							console.log("donation first name bound");
-						},
-						destroy: function($el, model, binding) {
-							console.log("donation first name unbound");
-						},
-						onGet: function(value) {
-							console.log("onGet: " + value);
-							return value;
-						},
-						onSet: function(value) {
-							console.log("onSet: " + value);
-							return value;
-						}
-					}
-				},
-
-				render: function() {
-					var source = document.getElementById("donation-form").innerHTML;
-					var template = Handlebars.compile(source);
-					var html = template(this.model.attributes);
-					this.$el.html(html);
-					this.stickit();
-
-					this.addBinding(null, "#donation-state", {
-						observe: "donation-state",
-						selectOptions: {
-							collection: [
-								{ name: "California", code: "CA" },
-								{ name: "Utah", code: "UT" },
-								{ name: "Virginia", code: "VA" }
-							],
-							labelPath: "name",
-							valuePath: "code"
-						}
-					});
-
-					//this.unstickit(null, "#donation-first-name");
-				}
-
-			});
-
-			var d = new Donation({
-				header: "<h2>Donation Form</h2>",
-				firstName: "Bob"
-			});
-
-			var df = new DonationForm({
-				el: "#content-view",
-				model: d
-			});
-
-			df.render();
-
-			setTimeout(function() {
-
-				d.set("header", "<h2>New Donation Form</h2>");
-				console.log("timeout expired!");
-
-			}, 3000);
-
-
-
-		</script>
-
+		<div id="app"></div>
 	</body>
 
 </html>
