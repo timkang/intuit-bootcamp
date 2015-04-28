@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Marrionette Application</title>
+		<link href="css/site.css" rel="stylesheet">
+
+		<script id="layout-template" type="text/x-handlebars">
+			<header id="page-header"></header>
+			<article id="page-content"></article>
+			<footer id="page-footer"></footer>
+		</script>
+
+		<script id="header-template" type="text/x-handlebars">
+			Header Content
+		</script>
+
+		<script id="content-template" type="text/x-handlebars">
+			ToDoList View
+		</script>
+
+		<script id="footer-template" type="text/x-handlebars">
+			Footer Content
+		</script>
+
+		<script id="settings-template" type="text/x-handlebars">
+			<h2>Settings</h2>
+			<div id="user-settings"></div>
+			<div id="project-settings"></div>
+			<div id="default-settings"></div>
+		</script>
+
+		<script id="user-settings-template" type="text/x-handlebars">
+			User Settings
+		</script>
+
+		<script id="project-settings-template" type="text/x-handlebars">
+			Project Settings
+		</script>
+
+		<script id="default-settings-template" type="text/x-handlebars">
+			Default Settings
+		</script>
+
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script src="libs/backbone.marionette/backbone.marionette.js"></script>
+		<script src="libs/backbone.stickit/backbone.stickit.js"></script>
+		<script src="libs/handlebars/handlebars.js"></script>
+
+		<script>
+
+			function configModule(app) {
+
+				app.module("Config", function(Config, App, Backbone, Marionette, $, _) {
+
+					Backbone.Marionette.TemplateCache.prototype.loadTemplate = function(templateId, options){
+					  console.log("load template");
+						return $(templateId).html();
+					}
+
+					Backbone.Marionette.TemplateCache.prototype.compileTemplate = function(rawTemplate, options) {
+						console.log("compile template");
+		  			return Handlebars.compile(rawTemplate);
+					}
+
+					Backbone.Marionette.Renderer.render = function(template, data){
+						var templateFn = Marionette.TemplateCache.get(template);
+						return templateFn(data);
+					};
+
+				});
+
+
+			}
+
+			function viewsModule(app) {
+
+				app.module("Views", function(Views, App, Backbone, Marionette, $, _) {
+
+					Views.RootView = Marionette.LayoutView.extend({
+						el: "#app",
+						template: "#layout-template",
+						regions: {
+							pageHeader: "#page-header",
+							pageContent: "#page-content",
+							pageFooter: "#page-footer"
+						},
+					});
+
+					Views.SettingsView = Marionette.LayoutView.extend({
+						template: "#settings-template",
+						regions: {
+							UserSettings: "#user-settings",
+							ProjectSettings: "#project-settings",
+							DefaultSettings: "#default-settings"
+						},
+						onShow: function() {
+							this.UserSettings.show(new Views.UserSettingsView());
+							this.ProjectSettings.show(new Views.ProjectSettingsView());
+							this.DefaultSettings.show(new Views.DefaultSettingsView());
+						}
+					});
+
+					Views.HeaderView = Marionette.ItemView.extend({
+						template: "#header-template"
+					});
+
+					Views.ToDoListView = Marionette.ItemView.extend({
+						template: "#content-template"
+					});
+
+					Views.FooterView = Marionette.ItemView.extend({
+						template: "#footer-template"
+					});
+
+					Views.UserSettingsView = Marionette.ItemView.extend({
+						template: "#user-settings-template"
+					});
+
+					Views.ProjectSettingsView = Marionette.ItemView.extend({
+						template: "#project-settings-template"
+					});
+
+					Views.DefaultSettingsView = Marionette.ItemView.extend({
+						template: "#default-settings-template"
+					});
+
+				});
+			}
+
+			function modelsModule(app) {
+
+				app.module("Models", function(Views, App, Backbone, Marionette, $, _) {
+				});
+			}
+
+			function collectionsModule(app) {
+				app.module("Collections", function(Views, App, Backbone, Marionette, $, _) {
+				});
+			}
+
+			function routersModule(app) {
+				app.module("Routers", function(Views, App, Backbone, Marionette, $, _) {
+				});
+			}
+
+			var ToDoListApp = Marionette.Application.extend({
+
+				initialize: function() {
+
+					var that = this;
+
+					this.on("start", function() {
+
+						configModule(that);
+						modelsModule(that);
+						collectionsModule(that);
+						viewsModule(that);
+						routersModule(that);
+
+						that.rootView = new that.Views.RootView();
+						that.rootView.render();
+						that.rootView.getRegion("pageHeader").show(new that.Views.HeaderView());
+						that.rootView.getRegion("pageContent").show(new that.Views.SettingsView());
+						that.rootView.getRegion("pageFooter").show(new that.Views.FooterView());
+					});
+
+				}
+			});
+
+			$(document).ready(function() {
+
+				var toDoListApp = new ToDoListApp();
+				toDoListApp.start();
+			});
+
+
+
+		</script>
+
+	</body>
+
+</html>

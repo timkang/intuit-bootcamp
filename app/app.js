@@ -12,7 +12,9 @@ module.exports = function(config) {
 		csrf = require("csrf")(),
 		path = require("path"),
 		app = express(),
-		indexPath = path.resolve(path.join("app", "www", "index.html"));
+		indexPath = path.resolve(path.join("app", "www", "index.html")),
+		backboneIndexPath = path.resolve(path.join("app", "www", "index_backbone.html")),
+		marionetteIndexPath = path.resolve(path.join("app", "www", "index_marionette.html"));
 
 	// connect to mongo
 	mongoose.connect("mongodb://" +
@@ -102,6 +104,18 @@ module.exports = function(config) {
 	// load REST service endpoints
 	app.use("/api", require("./routers/default.js")("transaction"));
 	app.use("/api", require("./routers/default.js")("account"));
+
+	app.use("/index_backbone.html", function(req, res) {
+		res.sendFile(backboneIndexPath, function(err) {
+			if (err) res.status(err.status).end();
+		});
+	});
+
+	app.use("/index_marionette.html", function(req, res) {
+		res.sendFile(marionetteIndexPath, function(err) {
+			if (err) res.status(err.status).end();
+		});
+	});
 
 	// all other requests should return index.html
 	// needed for HTML5 history API

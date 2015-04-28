@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Backbone Application</title>
+		<link href="css/site.css" rel="stylesheet">
+
+		<script id="layout-template" type="text/x-handlebars">
+			<header id="page-header"></header>
+			<article id="page-content"></article>
+			<footer id="page-footer"></footer>
+		</script>
+
+		<script id="header-template" type="text/x-handlebars">
+			Header Content
+		</script>
+
+		<script id="footer-template" type="text/x-handlebars">
+			Footer Content
+		</script>
+
+		<script id="settings-template" type="text/x-handlebars">
+			<h2>Settings</h2>
+			<div id="user-settings"></div>
+			<div id="project-settings"></div>
+			<div id="default-settings"></div>
+		</script>
+
+		<script id="user-settings-template" type="text/x-handlebars">
+			User Settings
+		</script>
+
+		<script id="project-settings-template" type="text/x-handlebars">
+			Project Settings
+		</script>
+
+		<script id="default-settings-template" type="text/x-handlebars">
+			Default Settings
+		</script>
+
+		<script id="content-template" type="text/x-handlebars">
+			ToDoList View
+		</script>
+
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script src="libs/backbone.stickit/backbone.stickit.js"></script>
+		<script src="libs/handlebars/handlebars.js"></script>
+
+		<script>
+
+			function IntuitRenderer() {
+				var source = $(this.template).html(); // Marionette.TemplateCache.prototype.loadTemplate
+				var template = Handlebars.compile(source); // Marionette.TemplateCache.prototype.compileTemplate
+				var html = template(); // Marionette.Renderer.render
+				this.$el.html(html); // show
+			}
+
+			var IntuitLayoutView = Backbone.View.extend({
+				render: function() {
+
+						var that = this;
+
+						IntuitRenderer.call(this);
+
+						_.each(_.keys(this.regionViews), function(regionName) {
+							var regionSelector = that.regions[regionName];
+							var view = that.regionViews[regionName];
+							view.$el = $(regionSelector);
+							view.el = view.$el[0];
+							view.render();
+						});
+
+				},
+				addViewToRegion: function(regionName, view) {
+					this.regionViews[regionName] = view;
+				},
+				initialize: function(options) {
+					this.options = options;
+				}
+			});
+
+			var IntuitItemView = Backbone.View.extend({
+				render: function() {
+					IntuitRenderer.call(this);
+				}
+			});
+
+			var ToDoListLayoutView = IntuitLayoutView.extend({
+				el: "#app",
+				template: "#layout-template",
+				regions: {
+					pageHeader: "#page-header",
+					pageContent: "#page-content",
+					pageFooter: "#page-footer"
+				},
+				initialize: function(options) {
+					this.regionViews = {};
+				}
+			});
+
+			var HeaderView = IntuitItemView.extend({
+				template: "#header-template"
+			});
+
+			var FooterView = IntuitItemView.extend({
+				template: "#footer-template"
+			});
+
+			var ToDoListView = IntuitItemView.extend({
+				template: "#content-template"
+			});
+
+			var SettingsView = IntuitLayoutView.extend({
+				template: "#settings-template",
+				regions: {
+					userSettings: "#user-settings",
+					projectSettings: "#project-settings",
+					defaultSettings: "#default-settings"
+				},
+				initialize: function(options) {
+					this.regionViews = {};
+				}
+			});
+
+			var UserSettingsView = IntuitItemView.extend({
+				template: "#user-settings-template"
+			});
+
+			var ProjectSettingsView = IntuitItemView.extend({
+				template: "#project-settings-template"
+			});
+
+			var DefaultSettingsView = IntuitItemView.extend({
+				template: "#default-settings-template"
+			});
+
+			var settingsView = new SettingsView();
+			settingsView.addViewToRegion("userSettings", new UserSettingsView());
+			settingsView.addViewToRegion("projectSettings", new ProjectSettingsView());
+			settingsView.addViewToRegion("defaultSettings", new DefaultSettingsView());
+
+
+			var toDoListLayoutView = new ToDoListLayoutView();
+			toDoListLayoutView.addViewToRegion("pageHeader", new HeaderView());
+			toDoListLayoutView.addViewToRegion("pageContent", settingsView);
+			toDoListLayoutView.addViewToRegion("pageFooter", new FooterView());
+			toDoListLayoutView.render();
+
+
+		</script>
+
+	</body>
+
+</html>
