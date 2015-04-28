@@ -10,10 +10,10 @@ define(dependencies, function(Marionette, Backbone, $, _) {
 
 				this.AppRouter = Marionette.AppRouter.extend({
 					controller: {
-						index: function() {
+						showIndex: function() {
 							App.rootView.getRegion("content").show(new App.Views.ContentView());
 						},
-						pages: function() {
+						showPages: function() {
 
 							var pages = new App.Collections.PageCollection();
 							pages.add(new App.Models.PageModel({
@@ -29,14 +29,20 @@ define(dependencies, function(Marionette, Backbone, $, _) {
 							App.rootView.getRegion("content").show(new App.Views.PageListView({
 								collection: pages
 							}))
+						},
+						showAbout: function() {
+							App.rootView.getRegion("content").show(new App.Views.AboutView());
 						}
 					},
 					appRoutes: {
-						"": "index",
-						"pages": "pages"
+						"": "showIndex",
+						"pages": "showPages",
+						"about": "showAbout"
 					},
 					initialize: function(options) {
 						this.options = options;
+
+						//console.log("Option: " + Marionette.getOption(this, "test"));
 					}
 				});
 

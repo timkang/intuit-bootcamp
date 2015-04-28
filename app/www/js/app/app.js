@@ -25,6 +25,7 @@ function appInit(
 				that.rootView = new that.Views.RootView();
 				that.rootView.render();
 				that.rootView.getRegion("header").show(new that.Views.HeaderView());
+				console.log(that.rootView.getRegion("header").hasView());
 
 				that.appRouter = new that.Routers.AppRouter();
 				Backbone.history.start();
@@ -38,4 +39,4 @@ function appInit(
 
 }
 
-require(dependencies, appInit);
+define(dependencies, appInit);
