@@ -88,10 +88,10 @@ module.exports = function(config) {
 	// app.use("/api", bodyParser.urlencoded({ extended: true }));
 
 	// authenticate all API requests
-	app.use(require("./routers/authenticate"));
+	//app.use(require("./routers/authenticate"));
 
 	// validate logged in and tokens for all API requests
-	app.use(require("./routers/api-request-validator"));
+	//app.use(require("./routers/api-request-validator"));
 
 	// configure file uploads
 	app.use("/api", multer({
