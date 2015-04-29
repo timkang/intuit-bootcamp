@@ -54,7 +54,7 @@ define(["marionette","backbone","handlebars","jquery","underscore"],
 						History: "#history-content"
 					},
 					// onShow - works but does more repaints
-					onShow: function() {
+					onBeforeShow: function() {
 						console.log("about view showed");
 						this.Mission.show(new Views.MissionView({
 							model: new Backbone.Model({

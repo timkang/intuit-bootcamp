@@ -17,6 +17,12 @@
 
 		<script id="header-template" type="text/x-handlebars">
 			Header Content
+			<nav>
+				<ul>
+						<li><a href="#/">Home</a></li>
+						<li><a href="#/settings">Settings</a></li>
+				</ul>
+			</nav>
 		</script>
 
 		<script id="footer-template" type="text/x-handlebars">
@@ -76,16 +82,27 @@
 						IntuitRenderer.call(this);
 
 						_.each(_.keys(this.regionViews), function(regionName) {
-							var regionSelector = that.regions[regionName];
-							var view = that.regionViews[regionName];
-							view.$el = $(regionSelector);
-							view.el = view.$el[0];
-							view.render();
+							that.drawRegion(regionName);
 						});
 
 				},
 				addViewToRegion: function(regionName, view) {
 					this.regionViews[regionName] = view;
+				},
+				resetRegion: function(regionName) {
+					var regionSelector = this.regions[regionName];
+					var view = this.regionViews[regionName];
+					$(regionSelector).empty();
+				},
+				drawRegion: function(regionName, view) {
+					var regionSelector = this.regions[regionName];
+					if (view)
+						this.regionViews[regionName] = view;
+					else
+						view = this.regionViews[regionName];
+					view.$el = $(regionSelector);
+					view.el = view.$el[0];
+					view.render();
 				},
 				initialize: function(options) {
 					this.options = options;
@@ -147,18 +164,50 @@
 				template: "#default-settings-template"
 			});
 
-			var settingsView = new SettingsView();
-			settingsView.addViewToRegion("userSettings", new UserSettingsView());
-			settingsView.addViewToRegion("projectSettings", new ProjectSettingsView());
-			settingsView.addViewToRegion("defaultSettings", new DefaultSettingsView());
+			var AppRouter = Backbone.Router.extend({
+
+				routes: {
+					"": "showHome",
+					"settings": "showSettings"
+				},
+
+				showHome: function() {
+					toDoListLayoutView.drawRegion("pageContent", new ToDoListView());
+
+				},
+
+				showSettings: function() {
+
+					var settingsView = new SettingsView();
+					settingsView.addViewToRegion("userSettings", new UserSettingsView());
+					settingsView.addViewToRegion("projectSettings", new ProjectSettingsView());
+					settingsView.addViewToRegion("defaultSettings", new DefaultSettingsView());
+					toDoListLayoutView.drawRegion("pageContent", settingsView);
+
+				}
+
+			});
 
 
 			var toDoListLayoutView = new ToDoListLayoutView();
 			toDoListLayoutView.addViewToRegion("pageHeader", new HeaderView());
-			toDoListLayoutView.addViewToRegion("pageContent", settingsView);
 			toDoListLayoutView.addViewToRegion("pageFooter", new FooterView());
 			toDoListLayoutView.render();
 
+			var appRouter = new AppRouter();
+			Backbone.history.start();
+
+
+
+			/*
+			setTimeout(function() {
+				settingsView.resetRegion("projectSettings");
+			}, 2000);
+
+			setTimeout(function() {
+				settingsView.drawRegion("projectSettings");
+			}, 4000);
+			*/
 
 		</script>
 
