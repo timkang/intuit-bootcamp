@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div id="app">
+			<div>some content</div>
+			<div>some content</div>
+		</div>
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+
+		<script>
+
+
+		require(["dojo/dom","dojo/dom-construct","dojo-bootstrap/Button","ready!"],
+			function(dom, domConstruct) {
+
+				var appDiv = dom.byId("app");
+
+				var node = domConstruct.toDom("<h1>Hello World!</h1>");
+
+				domConstruct.place(node, appDiv, "replace");
+
+			});
+
+
+
+		</script>
+
+	</body>
+
+</html>

@@ -7,57 +7,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Intuit Boot Camp Demonstrations</title>
-		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
-		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
+		<!-- <link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet"> -->
+		<!-- <link href="libs/dijit/themes/claro/claro.css" rel="stylesheet"> -->
 		<link href="css/site.css" rel="stylesheet">
+		<style>
 
-		<script id="root-template" type="template/x-handlebars">
-			<header id="page-header"></header>
-			<article id="main-content"></article>
-			<footer id="page-footer"></footer>
-		</script>
+			.red-background {
+				background-color:red;
+			}
 
-		<script id="header-template" type="template/x-handlebars">
-			<h1>Sample App</h1>
-		</script>
-
-		<script id="content-template" type="template/x-handlebars">
-			<h2>Welcome!</h2>
-			<p>Some welcome content!</p>
-			<ul>
-				<li><a href="#/">Home</a></li>
-				<li><a href="#/pages">Pages</a></li>
-				<li><a href="#/about">About</a></li>
-			</ul>
-		</script>
-
-		<script id="about-template" type="template/x-handlebars">
-			<h2>About Us</h2>
-			<article id="mission-content"></article>
-			<article id="team-content"></article>
-			<article id="history-content"></article>
-		</script>
-
-		<script id="mission-template" type="template/x-handlebars">
-			<h3>Mission</h3>
-			<p>{{missionContent}}</p>
-		</script>
-
-		<script id="team-template" type="template/x-handlebars">
-			<h3>Team</h3>
-			<p>Here is our team...</p>
-		</script>
-
-		<script id="history-template" type="template/x-handlebars">
-			<h3>History</h3>
-			<p>Here is our history...</p>
-		</script>
-
-		<script data-main="js/main" src="libs/requirejs/require.js"></script>
+		</style>
 	</head>
 
-	<body>
-		<div id="app"></div>
+	<body class="claro">
+
+		<div id="myDiv">
+			<div id="childDiv">
+				Some Content!
+			</div>
+		</div>
+
+		<button id="clickMe">Click Me!</button>
+
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+
+		<script>
+
+			require(["dojo/dom", "dojo/dom-construct", "dojo/dom-attr", "dojo/domReady!"],
+				function(dom, domConstruct, domAttr) {
+
+					console.dir(domConstruct);
+
+					//var domNode = domConstruct.toDom("<div><h2>I love Dojo!</h2></div>")
+
+					//domConstruct.place(domNode, dom.byId("myDiv"), "replace");
+
+					var domNode = domConstruct.create("div");
+					console.dir(domNode);
+
+					domAttr.set(domNode, "id", "kannada-rocks");
+
+					domConstruct.place(domNode, dom.byId("myDiv"), "after");
+
+
+					domConstruct.destroy(domNode);
+
+			});
+
+		</script>
+
 	</body>
 
 </html>

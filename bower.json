@@ -22,6 +22,8 @@
     "backbone": "~1.1.2",
     "handlebars": "~3.0.2",
     "localforage": "~1.2.2",
-    "requirejs": "~2.1.17"
+    "requirejs": "~2.1.17",
+    "dojo": "~1.10.4",
+    "dijit": "~1.10.4"
   }
 }

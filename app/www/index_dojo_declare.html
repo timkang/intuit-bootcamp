@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div id="app" class="container">
+			<div>
+				<input type="button" id="click-me" value="Click Me!">
+			</div>
+		</div>
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+
+		<script>
+
+			require(["dojo/_base/declare","dojo/_base/lang","dojo-bootstrap/Button","ready!"],
+				function(declare, lang){
+
+					var Person = declare(null, {
+
+						firstName: "John",
+						lastName: "Doe",
+						age: 18,
+
+				    constructor: function(initArgs){
+							console.log("person superclass constructor");
+							lang.mixin(this, initArgs);
+				      //this.firstName = firstName;
+							//this.lastName = lastName;
+				      //this.age = age;
+				    },
+
+						fullName: function() {
+							return this.firstName + " " + this.lastName;
+						},
+
+						recordLabel: function() {
+							console.log("person super class record label");
+							return this.fullName();
+						},
+
+						init: function() {
+							console.log("person init");
+						},
+
+						destroy: function() {
+							console.log("person destroy");
+						}
+
+				  });
+
+					var p = new Person({ firstName: "Eric", lastName: "Greene", age: 37 });
+					console.log(p.fullName());
+
+					var Student = declare(Person, {
+
+						"-chains-": {
+							init: "after",
+							destroy: "before",
+							constructor: "manual" // call the inherited method manually
+						},
+
+						schoolId: "00000",
+
+						recordLabel: function() {
+							//return this.fullName() + " ID: " + this.schoolId;
+							return this.inherited(arguments);
+						},
+
+						constructor: function(initArgs) {
+							console.log("student subclass constructor");
+						},
+
+						init: function() {
+							console.log("student init");
+						},
+
+						destroy: function() {
+							console.log("student destroy");
+						}
+
+					});
+
+					var s = new Student({ firstName: "Eric", lastName: "Greene", age: 37, schoolId: "00001" });
+					console.log(s.recordLabel());
+
+					console.log(s);
+
+					s.destroy();
+
+
+
+				});
+
+		</script>
+
+	</body>
+
+</html>
