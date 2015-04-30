@@ -181,16 +181,14 @@
 
 						initialize: function() {
 							this.on("start", function() {
-
-									this.rootView = new AppLayoutView();
-									this.rootView.render();
-									this.rootView.getRegion("menu").show(new MenuView());
-									this.rootView.getRegion("content").show(new EditorView({
-										model: new Backbone.Model({
-											content: "<h1>Hello World!</h1>"
-										})
-									}));
-
+								this.rootView = new AppLayoutView();
+								this.rootView.render();
+								this.rootView.getRegion("menu").show(new MenuView());
+								this.rootView.getRegion("content").show(new EditorView({
+									model: new Backbone.Model({
+										content: "<h1>Hello World!</h1>"
+									})
+								}));
 							});
 						}
 

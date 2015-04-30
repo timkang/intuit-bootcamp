@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<!-- <link href='libs/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet">
+		<link href='libs/bootstrap/dist/css/bootstrap-theme.min.css' rel="stylesheet"> -->
+		<!-- <link href="libs/dijit/themes/claro/claro.css" rel="stylesheet"> -->
+		<link href="css/site.css" rel="stylesheet">
+	</head>
+
+	<body class="claro">
+
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+
+		<script>
+
+			require(["dojo/_base/declare", "dojo/_base/lang", "dojo/domReady!"],
+				function(declare, lang) {
+
+					var SoundSystem = declare(null, {
+
+						name: "Standard",
+						numberOfSpeakers: 2,
+
+						constructor: function(options) {
+							lang.mixin(this, options);
+						}
+
+					});
+
+					var Car = declare(null, {
+
+						make: "Chevrolet",
+						model: "Spark",
+						year: 2014,
+
+						constructor: function(options) {
+							lang.mixin(this, options);
+						},
+
+						drive: function(speed) {
+							console.log("We are riding along at " + speed + " mph.");
+						}
+
+					});
+
+					//var car = new Car("Tesla", "P85D", 2015);
+					//car.drive(120);
+
+					//var coldPlaySignatureEdition = new SoundSystem("Cold Play Signature Edition", 200);
+
+					//console.dir(car);
+
+					var KrishnasCar = declare([Car, SoundSystem], {
+
+						color: "brown",
+						useKilos: false,
+
+						constructor: function(options) {
+							lang.mixin(this, options);
+						},
+
+					});
+
+					console.dir(Object.getPrototypeOf(
+						Object.getPrototypeOf(KrishnasCar.prototype)) === Car.prototype);
+
+					var kc = new KrishnasCar({
+						make: "Audi",
+						model: "S5",
+						year: 2016,
+						color: "orange",
+						useKilos: false,
+						name: "Cold Play Signature Edition",
+						numberOfSpeakers: 200
+					});
+
+					//console.dir(kc)
+
+			});
+
+		</script>
+
+	</body>
+
+</html>
