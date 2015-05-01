@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href="libs/dijit/themes/claro/claro.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+		<style>
+			html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			}
+			#layout-app {
+				width: 100%;
+				height: 100%;
+			}
+			#sidebar {
+				width: 20%;
+			}
+			#editor-main {
+				height: 100%
+			}
+		</style>
+
+		<script id="menu-template" type="template/x-backbone">
+			<div data-dojo-type="dijit/MenuBar" id="navMenu">
+			<div data-dojo-type="dijit/PopupMenuBarItem">
+			<span>File</span>
+			<div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
+			  <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 1');}">File #1</div>
+				  <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 2');}">File #2</div>
+			</div>
+			</div>
+			<div data-dojo-type="dijit/PopupMenuBarItem">
+			<span>Edit</span>
+			<div data-dojo-type="dijit/DropDownMenu" id="editMenu">
+			  <div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut',
+					  onClick:function(){alert('cut!')}">Cut</div>
+			  <div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCopy',
+					  onClick:function(){alert('copy!')}">Copy</div>
+			  <div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconPaste',
+					  onClick:function(){alert('paste!')}">Paste</div>
+			</div>
+			</div>
+			<div data-dojo-type="dijit/MenuBarItem">
+			Save
+			</div>
+			</div>
+		</script>
+
+		<script id="editor-template" type="template/x-backbone">
+			<div data-dojo-type="dijit/Editor" id="editor-main"></div>
+			<button data-dojo-type="dijit/form/Button" type="button" id="button-save">Save</button>
+		</script>
+
+		<script id="layout-app-template" type="template/x-backbone">
+			<div id="layout-app" data-dojo-type="dijit/layout/BorderContainer">
+			<header id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+					Header Pane
+				</header>
+				<nav id="menu" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+					Menu Pane
+				</nav>
+				<aside id="sidebar" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'leading'">
+				<div data-dojo-type="dijit/layout/AccordionContainer" data-dojo-props="region:'center'">
+				<div data-dojo-type="dijit/layout/ContentPane" title="Project">Project Stuff</div>
+				<div data-dojo-type="dijit/layout/ContentPane" title="Settings">Settings Stuff</div>
+				<div data-dojo-type="dijit/layout/ContentPane" title="Testing">Testing Stuff</div>
+				</div>
+				</aside>
+				<article id="content" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+					Content Pane
+				</article>
+			<footer id="footer" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'bottom'">
+					Footer Pane
+				</footer>
+			</div>
+		</script>
+
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+
+	</head>
+
+	<body class="claro">
+
+		<script>
+
+			require(["jquery","underscore","backbone","marionette"],
+				function($, _, Backbone, Marionette) {
+
+					var AppLayoutView = Marionette.LayoutView.extend({
+						el: "body",
+						template: "#layout-app-template",
+						modules: ["dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+						"dijit/layout/AccordionContainer"],
+						regions: {
+							header: "#header",
+							menu: "#menu",
+							sidebar: "#sidebar",
+							content: "#content",
+							footer: "#footer"
+						},
+						initialize: function() {
+
+							this.on("before:render", function() {
+								require(this.modules);
+							});
+
+						}
+					});
+
+					var MenuView = Marionette.ItemView.extend({
+						template: "#menu-template",
+						modules: ["dijit/MenuBar", "dijit/MenuBarItem",
+							"dijit/PopupMenuBarItem", "dijit/DropDownMenu",
+							"dijit/MenuItem"],
+						initialize: function() {
+							this.on("before:render", function() {
+								require(this.modules);
+							});
+						}
+					});
+
+					var EditorView = Marionette.ItemView.extend({
+						template: "#editor-template",
+						modules: ["dijit/Editor","dijit/form/Button"],
+						initialize: function () {
+
+						    var editor, button;
+
+						    this.on("destroy", function () {
+
+						        editor.destroy();
+						        button.destroy();
+
+						    });
+
+							this.on("before:render", function() {
+								require(this.modules);
+							});
+
+							this.on("render", function() {
+
+								var theView = this;
+
+								require(["dijit/registry"], function(registry) {
+
+									function configureEditor() {
+
+									    editor = registry.byId("editor-main"),
+										button = registry.byId("button-save");
+
+										if (!editor || !button) {
+											setTimeout(configureEditor, 0);
+											return
+										}
+
+										editor.onLoadDeferred.then(function() {
+
+											editor.on("change", function() {
+												console.log("editor changed");
+												console.log(arguments);
+
+											});
+
+											editor.set("value", theView.model.get("content"));
+
+										});
+
+										button.on("click", function() {
+											console.log(editor.get("value"));
+										});
+									}
+
+									setTimeout(configureEditor, 0);
+
+								});
+
+							});
+
+						}
+					});
+
+					var SampleApp = Marionette.Application.extend({
+
+						initialize: function() {
+							this.on("start", function() {
+
+									this.rootView = new AppLayoutView();
+									this.rootView.render();
+									this.rootView.getRegion("menu").show(new MenuView());
+									this.rootView.getRegion("content").show(new EditorView({
+										model: new Backbone.Model({
+											content: "<h1>Hello World!</h1>"
+										})
+									}));
+
+							});
+						}
+
+					});
+
+
+					var sampleApp = new SampleApp();
+					sampleApp.start();
+
+					setTimeout(function () {
+					    sampleApp.rootView.getRegion("content").reset();
+
+					    setTimeout(function () {
+
+								console.log("trying to add it back...");
+
+						    require(["dojo/parser"], function (parser) {
+
+						        sampleApp.rootView.getRegion("content").show(new EditorView({
+								    model: new Backbone.Model({
+									    content: "<h1>Hello World!</h1>"
+								    })
+							    }));
+
+							    parser.parse(sampleApp.rootView.getRegion("content").el);
+						    });
+
+					    }, 2000);
+
+					}, 2000);
+
+
+			});
+
+		</script>
+	</body>
+
+</html>

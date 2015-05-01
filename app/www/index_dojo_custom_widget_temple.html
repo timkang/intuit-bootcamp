@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href="libs/dijit/themes/claro/claro.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+		<script>
+
+			require(["dojo/_base/declare","dojo/parser","dojo/ready",
+				"dijit/_WidgetBase","dojo/dom-construct", "dijit/_TemplatedMixin",
+				"dijit/registry", "dojo/text!../i/tpl.html"],
+				function(declare, parser, ready, _WidgetBase, domConstruct, _TemplatedMixin, registry, template) {
+
+					declare("MyFirstWidget", [_WidgetBase, _TemplatedMixin], {
+
+
+						templateString : template,
+
+						name: "none",
+						_setNameAttr: { node: "nameNode", type: "innerHTML" },
+
+						/*
+						_setNameAttr: function(value) {
+							console.log("set name");
+							this.name = value;
+						},
+
+						_getNameAttr: function() {
+							console.log("get name");
+							return this.name;
+						},
+						*/
+
+						constructor: function(params, srcNodeRef) {
+
+							console.log("creating widget with params " + JSON.stringify(params) + " on node " + srcNodeRef);
+
+						},
+
+
+						/*
+						buildRendering: function(){
+
+							console.dir(this.domNode);
+							//this.domNode = domConstruct.create("button", {innerHTML: "push me"});
+						},
+						*/
+
+						postCreate: function() {
+							//this._i = 0;
+							///this.connect(this.domNode, "onclick", "increment");
+						},
+
+						increment: function() {
+							this.counter.textContent = parseInt(this.counter.textContent, 10) + 1	;
+						}
+
+					});
+
+					ready(function() {
+						parser.parse();
+
+						var w = registry.byId("my-widget");
+						w.set("name", "Another Widget");
+						console.dir(w);
+
+
+					});
+
+			});
+
+
+		</script>
+	</head>
+
+	<body class="claro">
+		<div id="my-widget" data-dojo-type="MyFirstWidget" data-dojo-props="name: 'A Widget'">Hello World!</div>
+	</body>
+
+</html>

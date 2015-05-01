@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Backbone Application</title>
+		<link href="css/site.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+		<script src="libs/jquery/dist/jquery.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="libs/underscore/underscore.js"></script>
+		<script src="libs/backbone/backbone.js"></script>
+		<script src="libs/backbone.stickit/backbone.stickit.js"></script>
+		<script src="libs/handlebars/handlebars.js"></script>
+
+		<script>
+
+			var MyModel = Backbone.Model.extend();
+			var carModel = new MyModel();
+
+			var MyView = Backbone.View.extend({
+
+				events: {
+					"click #saveButton": function() {
+						this.model.name = $("#name").val();
+						this.trigger("save", this.model);
+					}
+				}
+				render: function() {
+
+				}
+
+			});
+
+			function MyController(pristineModel) {
+				var myView = new MyView({
+					model: new MyModel(pristineModel.toJSON());
+				});
+				myView.render();
+
+				var obj = {};
+
+				_extend(obj, Backbone.Events);
+
+				obj.listenTo("save", myView, function(updatedModel) {
+					updatedModel.save();
+					_.extend(pristineModel.attributes, updatedModel.attributes);
+				});
+			}
+
+
+
+			var myRouter = new Backbone.Router({
+
+				routes: {
+					"": MyController(carModel)
+				}
+			});
+
+
+		</script>
+
+	</body>
+
+</html>

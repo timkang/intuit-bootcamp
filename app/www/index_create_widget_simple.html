@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Intuit Boot Camp Demonstrations</title>
+		<link href="libs/dijit/themes/claro/claro.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
+		<script src="js/dojo/dojo-config.js"></script>
+		<script src="libs/dojo/dojo.js"></script>
+		<script>
+
+			require(["dojo/_base/declare","dojo/parser","dojo/ready",
+				"dijit/_WidgetBase","dojo/dom-construct"],
+				function(declare, parser, ready, _WidgetBase, domConstruct) {
+
+					declare("MyFirstWidget", [_WidgetBase], {
+
+						constructor: function(params, srcNodeRef) {
+
+							console.log("creating widget with params " + JSON.stringify(params) + " on node " + srcNodeRef);
+
+						},
+
+						buildRendering: function(){
+
+							console.dir(this.domNode);
+							this.domNode = domConstruct.create("button", {innerHTML: "push me"});
+						},
+
+						postCreate: function() {
+							this._i = 0;
+							this.connect(this.domNode, "onclick", "increment");
+						},
+
+						increment: function() {
+						console.log(++this._i);
+						}
+
+					});
+
+					ready(function() {
+						parser.parse();
+					});
+
+			});
+
+
+		</script>
+	</head>
+
+	<body class="claro">
+		<div data-dojo-type="MyFirstWidget" data-dojo-props="name: 'A Widget'">Hello World!</div>
+	</body>
+
+</html>

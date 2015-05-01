@@ -2,8 +2,8 @@ var dojoConfig = {
 	async: true,
 	//cacheBust: true,
 	isDebug: true,
-	parseOnLoad: true,
-	deps: ["dojo/parser"],
+	//parseOnLoad: true,
+	//deps: ["dojo/parser"],
 	packages: [
 		{ name: "myapp", location: "../../js/myapp" },
 		{ name: "jquery", location: "../jquery/dist", main: "jquery" },
